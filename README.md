@@ -1,2 +1,2 @@
 # AlleDrogo
-ale ale aleksandra
+ale(drogo) ale(drogo) aleksandra
