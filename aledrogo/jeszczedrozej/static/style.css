@@ -1,0 +1,39 @@
+.header{
+    height: 10%;
+    float: left;
+    width: 100%;
+    color: darkgreen;
+}
+
+button{
+    float: right;
+    background-color: darkgreen;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+.glowny{
+    height: 500px;
+    float: left;
+    width: 100%;
+
+
+    padding: 20px;
+    background-color: #f9f9f9;
+
+
+}
+.stopka{
+    height: 10%;
+    float: left;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+}

@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {% load static %}
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'style.css' %}">
         <title>AlleDrogo</title>
     </head>
     <body>
-        <h1>Witaj na AlleDrogo!</h1>
-        <p>
-            Witaj na naszej platformie. Znajdziesz tutaj wiele ciekawych
-            produktów w bardzo atrakcyjnych cenach.
-        </p>
-        <p>Jeśli jesteś zainteresowany zakupem, zaloguj się lub zarejestruj.</p>
-        <p>Życzymy udanych zakupów!</p>
+        <div class="header">
+             <img src="{% static 'images/logo.png' %}" height="50px"><button>załóż konto</button>    <button>zaloguj się</button>
+        </div>
+        <div class="glowny">
+            <div id="1">
+                <h1>jakas tresc strony</h1>
+            </div>
+
+
+        </div>
+        <div class="stopka">
+            <h5>bardzo fajne informacje</h5>
+        </div>
     </body>
 </html>
