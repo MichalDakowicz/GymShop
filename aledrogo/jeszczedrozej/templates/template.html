@@ -8,7 +8,26 @@
         <title>AlleDrogo</title>
     </head>
     <body>
+        <div id="header">
+            <img src="{% static 'images/logo-rectangle.png' %}" height="50px" />
+
+            <div id="search">
+                <input
+                    type="text"
+                    name="search-input"
+                    id="search-input"
+                /><button id="search-button">
+                    <img
+                        src="{% static 'images/search-image.png' %}"
+                        id="search-button-image"
+                    />
+                </button>
+            </div>
+
+            <a href="#"
+                ><img src="{% static 'images/account-image.png' %}" alt=""
+            /></a>
+        </div>
         {% block content %}{% endblock %}
-        <footer>Tymczasowy footer</footer>
     </body>
 </html>
