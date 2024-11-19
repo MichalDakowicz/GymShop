@@ -1,39 +1,90 @@
-.header{
-    height: 10%;
-    float: left;
-    width: 100%;
-    color: darkgreen;
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+:root {
+    --primary-color: #0fd900;
+    --accent-color: #222;
+
+    --background-color-light: #f9f9f9;
+    --text-color-light: #222;
+
+    --background-color-dark: #1e1e1e;
+    --text-color-dark: #eaeaea;
+
+    --button-bg: var(--primary-color);
+    --button-text: white;
 }
 
-button{
-    float: right;
-    background-color: darkgreen;
-    color: white;
-    padding: 12px 20px;
+body {
+    font-family: "Ubuntu", sans-serif;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--accent-color);
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#header img {
+    height: 50px;
+}
+
+#header button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
     border-radius: 5px;
-    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
-.glowny{
-    height: 500px;
-    float: left;
-    width: 100%;
 
-
-    padding: 20px;
-    background-color: #f9f9f9;
-
-
+#header button:hover {
+    filter: brightness(80%);
+    transform: scale(1.05);
 }
-.stopka{
-    height: 10%;
-    float: left;
-    width: 100%;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
+
+#glowny {
     text-align: center;
-    font-size: 14px;
+    padding: 20px;
+}
+
+#glowny h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin: 20px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: #fff;
+    font-size: 0.9rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer.dark-mode {
+    background-color: #000;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
 }
