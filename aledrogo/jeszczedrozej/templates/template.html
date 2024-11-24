@@ -9,7 +9,12 @@
     </head>
     <body>
         <div id="header">
-            <img src="{% static 'images/logo-rectangle.png' %}" height="50px" />
+            <a href="{% url 'home' %}">
+                <img
+                    src="{% static 'images/logo-rectangle.png' %}"
+                    height="50px"
+                />
+            </a>
 
             <div id="search">
                 <input
@@ -24,9 +29,18 @@
                 </button>
             </div>
 
-            <a href="#"
-                ><img src="{% static 'images/account-image.png' %}" alt=""
-            /></a>
+            {% if user.is_authenticated %}
+            <div id="user">
+                <span>{{ user.username }}</span>
+                <a href="{% url 'profile' %}">
+                    <img src="{% static 'images/account-image.png' %}" alt="" />
+                </a>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}">
+                <img src="{% static 'images/account-image.png' %}" alt="" />
+            </a>
+            {% endif %}
         </div>
         {% block content %}{% endblock %}
     </body>
