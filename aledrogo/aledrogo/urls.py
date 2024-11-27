@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from jeszczedrozej.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('jeszczedrozej.urls')),
-]
+    path('',home,name='home'),
+    path('kategoria/<id>/',kategoria,name='kategoria')]

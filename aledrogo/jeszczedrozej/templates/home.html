@@ -1,6 +1,29 @@
 {% extends "template.html" %} {% block content %}{% load static %}
 
 <div id="glowny">
-    <h1>jakas tresc strony</h1>
+
+    <div id="baner">
+        <img src="{% static 'images/blackweeks.jpg' %}" height="300px">
+    </div>
+
+</head>
+<body>
+<h1>Najlepsze okazje black friday</h1>
+     <table>
+        <tr>
+            {% for produkt in produkty %}
+                <td>
+                    <img src="{% static 'images/hantle.png' %}" height="100px"><br>
+                    {{ produkt.nazwa }}<br>
+                    {{ produkt.cena }} PLN
+                </td>
+                {% if forloop.counter|divisibleby:4 and not forloop.last %}
+        </tr>
+        <tr>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    </table>
+
 </div>
 {% endblock %}

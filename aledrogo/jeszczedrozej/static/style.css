@@ -96,7 +96,7 @@ body.dark-mode {
 
 #glowny {
     text-align: center;
-    padding: 20px;
+
 }
 
 #glowny h1 {
@@ -233,3 +233,16 @@ h2 {
     font-weight: bold;
     unicode-bidi: isolate;
 }
+table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+td {
+    text-align: center;
+    padding: 20px;
+    height: 150px;
+        }
+#baner{
+                background-color: black;
+            }

@@ -3,10 +3,20 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
 from .forms import CustomLoginForm, CustomRegisterForm
+from .models import Produkt
+from .models import Kategoria
+from django.http import HttpResponse
+
+
+
 
 def home(request):
-    return render(request, 'home.html')
+    produkty = Produkt.objects.all()[:8]
+    return render(request, 'home.html', {'produkty': produkty})
 
+def kategoria(request,id):
+    kategoria_user=Kategoria.objects.get(pk=id)
+    return HttpResponse(kategoria_user.nazwa)
 def login(request):
     if request.method == 'POST':
         form = CustomLoginForm(request, data=request.POST)
@@ -44,3 +54,4 @@ def profile(request):
 def logout(request):
     auth_logout(request)
     return redirect('home')
+
