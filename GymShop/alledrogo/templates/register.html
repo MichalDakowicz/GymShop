@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Rejestracja</title>
-    </head>
-    <body>
-        {% extends "template.html" %} {% block content %}
-        <form method="post">
-            <h2>Rejestracja</h2>
-            {% csrf_token %} {{ form.as_p }}
-            <button type="submit">Zarejestruj</button>
-        </form>
-        {% endblock %}
-    </body>
+<head>
+    <title>Rejestracja</title>
+</head>
+<body>
+    {% extends "template.html" %} 
+    {% block content %}
+    <form method="post">
+        <h2>Rejestracja</h2>
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <button type="submit">Zarejestruj</button>
+    </form>
+    {% endblock %}
+</body>
 </html>

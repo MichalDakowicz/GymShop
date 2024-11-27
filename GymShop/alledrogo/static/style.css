@@ -3,15 +3,11 @@
 :root {
     --primary-color: #0fd900;
     --accent-color: #222;
-
     --darker-color: #333;
-
     --background-color-light: #f9f9f9;
     --text-color-light: #222;
-
     --background-color-dark: #1e1e1e;
     --text-color-dark: #eaeaea;
-
     --button-bg: #0fd900;
     --button-text: white;
 }
@@ -31,9 +27,43 @@ body {
     color: var(--text-color-light);
     margin-left: 250px;
     float: left;
-    padding: 0;
+    padding: 20px;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
 
+.rating {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.star-rating {
+    position: relative;
+    display: inline-block;
+    font-size: 24px; /* Adjust size of stars */
+    color: #ccc; /* Color for empty stars */
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle; /* Align stars vertically with text */
+    margin-bottom: 1px;
+}
+
+.star-rating-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--primary-color); /* Color for filled stars */
+    width: 0%; /* Controlled dynamically */
+    transition: width 0.3s ease; /* Smooth transition */
+}
+
+#products-top-bar {
+    display: flex;
+    align-items: center; /* Align items vertically */
 }
 
 body.dark-mode {
@@ -107,12 +137,136 @@ body.dark-mode {
 
 #glowny {
     text-align: center;
+    padding: 20px;
 }
 
 #glowny h1 {
     font-size: 2.5rem;
     color: var(--primary-color);
     margin: 20px 0;
+}
+
+.produkty-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.produkt {
+    background-color: var(--background-color-light);
+    border: 1px solid var(--darker-color);
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.produkt:hover {
+    transform: scale(1.05);
+}
+
+.produkt img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.produkt a {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    color: var(--text-color-light);
+    text-decoration: none;
+}
+
+.produkt p {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+#glowny table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#glowny td {
+    text-align: center;
+    padding: 20px;
+    height: 150px;
+    border: 1px solid var(--darker-color);
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+#glowny td:hover {
+    transform: scale(1.05);
+}
+
+#glowny img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+#baner {
+    background-color: black;
+    margin-bottom: 20px;
+}
+
+#baner img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+#kwadrat2 {
+    float: right;
+    margin-right: 200px;
+    margin-top: 100px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#kwadrat2 h2,
+#kwadrat2 h1 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+#kwadrat2 label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#kwadrat2 input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    margin-bottom: 20px;
+    border: 1px solid var(--darker-color);
+    border-radius: 5px;
+}
+
+#kwadrat2 input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 10px;
+}
+
+#kwadrat2 input[type="submit"]:hover {
+    filter: brightness(80%);
+    transform: scale(1.05);
 }
 
 #user {
@@ -243,20 +397,28 @@ h2 {
     font-weight: bold;
     unicode-bidi: isolate;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
 }
+
 td {
     text-align: center;
     padding: 20px;
     height: 150px;
 }
-#baner{
+
+td img {
+    max-height: 200px;
+}
+
+#baner {
     background-color: black;
 }
-#kwadrat2{
+
+#kwadrat2 {
     float: right;
     margin-right: 200px;
     margin-top: 100px;

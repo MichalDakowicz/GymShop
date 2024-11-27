@@ -1,33 +1,26 @@
 {% extends "template.html" %}
+{% load custom_filters %}
 {% block content %}
-
-    <div id="blok2">
-        <h1>{{ produkt.nazwa }}</h1>
-        <p>{{ produkt.opis }}</p><p>{{ produkt.srednia_ocen }}</p>
-
-        {% if produkt.zdjecie %}
-        <img src="{{ produkt.zdjecie.url }}" height="500px">
-        {% endif %}
-    </div>
-
-    <div id="kwadrat2">
-
-
-
-        <form method="post">
-
-            <h2>Produkt sprzedawany przez {{ produkt.firma }}</h2>
-            <h1>Cena: {{produkt.cena}} PLN</h1>
-
-            <label for="quantity_{{ produkt.id }}">Ilość:</label>
-            <input type="number" name="quantity_{{ produkt.id }}" id="quantity_{{ produkt.id }}" min="1" value="1" style="width: 50px;"><br>
-
-            <input type="submit" value="Dodaj do koszyka">
-            <input type="submit" value="Kup teraz">
-        </form>
-
-    </div>
-
-
-
+<div id="blok2">
+    <div id="products-top-bar"><h1>{{ produkt.nazwa }} <span class="rating">{{ produkt.srednia_ocen }}</span>
+        <div class="star-rating">
+        ★★★★★
+            <div class="star-rating-inner" style="width: {{ produkt.srednia_ocen|floatformat:2|mul:20 }}%;">★★★★★</div>
+        </div></div>
+    </h1>
+    <p>{{ produkt.opis }}</p>
+    {% if produkt.zdjecie %}
+    <img src="{{ produkt.zdjecie.url }}" height="500px">
+    {% endif %}
+</div>
+<div id="kwadrat2">
+    <form method="post">
+        <h2>Produkt sprzedawany przez {{ produkt.firma }}</h2>
+        <h1>Cena: {{produkt.cena}} PLN</h1>
+        <label for="quantity_{{ produkt.id }}">Ilość:</label>
+        <input type="number" name="quantity_{{ produkt.id }}" id="quantity_{{ produkt.id }}" min="1" value="1" style="width: 50px;"><br>
+        <input type="submit" value="Dodaj do koszyka">
+        <input type="submit" value="Kup teraz">
+    </form>
+</div>
 {% endblock %}

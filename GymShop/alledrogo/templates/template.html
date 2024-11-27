@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% load static %}
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{% static 'style.css' %}" />
-        <title>AlleDrogo</title>
-    </head>
-    <body>
-        <div id="header">
-            <a href="{% url 'home' %}">
-                <img
-                    src="{% static 'images/logo-rectangle.png' %}"
-                    height="50px"
-                />
-            </a>
-
-            <div id="search">
-                <input
-                    type="text"
-                    name="search-input"
-                    id="search-input"
-                /><button id="search-button">
-                    <img
-                        src="{% static 'images/search-image.png' %}"
-                        id="search-button-image"
-                    />
-                </button>
-            </div>
-
-            {% if user.is_authenticated %}
-            <div id="user">
-                <span>{{ user.username }}</span>
-                <a href="{% url 'profile' %}">
-                    <img src="{% static 'images/account-image.png' %}" alt="" />
-                </a>
-            </div>
-            {% else %}
-            <a href="{% url 'login' %}">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <title>AlleDrogo</title>
+</head>
+<body>
+    <div id="header">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo-rectangle.png' %}" height="50px" />
+        </a>
+        <div id="search">
+            <input type="text" name="search-input" id="search-input" />
+            <button id="search-button">
+                <img src="{% static 'images/search-image.png' %}" id="search-button-image" />
+            </button>
+        </div>
+        {% if user.is_authenticated %}
+        <div id="user">
+            <span>{{ user.username }}</span>
+            <a href="{% url 'profile' %}">
                 <img src="{% static 'images/account-image.png' %}" alt="" />
             </a>
-            {% endif %}
         </div>
-        {% block content %}{% endblock %}
-    </body>
+        {% else %}
+        <a href="{% url 'login' %}">
+            <img src="{% static 'images/account-image.png' %}" alt="" />
+        </a>
+        {% endif %}
+    </div>
+    {% block content %}{% endblock %}
+</body>
 </html>

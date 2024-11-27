@@ -10,7 +10,6 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('logout/', logout, name='logout'),
     path('produkt/<int:id>/', produkt_detail, name='produkt_detail'),
-
 ]
 
 if settings.DEBUG:
