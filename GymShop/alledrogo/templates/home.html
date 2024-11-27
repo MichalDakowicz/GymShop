@@ -1,0 +1,31 @@
+{% extends "template.html" %} {% block content %}{% load static %}
+
+<div id="glowny">
+
+    <div id="baner">
+        <img src="{% static 'images/blackweeks.jpg' %}" height="300px">
+    </div>
+
+</head>
+<body>
+<h1>Najlepsze okazje black friday</h1>
+     <table>
+        <tr>
+            {% for produkt in produkty %}
+                <td>
+                    {% if produkt.zdjecie %}
+                        <img src="{{ produkt.zdjecie.url }}" height="100px"><br>
+                    {% endif %}
+                    {{ produkt.nazwa }}<br>
+                    {{ produkt.cena }} PLN
+                </td>
+                {% if forloop.counter|divisibleby:4 and not forloop.last %}
+        </tr>
+        <tr>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    </table>
+
+</div>
+{% endblock %}

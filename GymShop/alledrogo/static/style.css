@@ -1,0 +1,247 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+:root {
+    --primary-color: #0fd900;
+    --accent-color: #222;
+
+    --darker-color: #333;
+
+    --background-color-light: #f9f9f9;
+    --text-color-light: #222;
+
+    --background-color-dark: #1e1e1e;
+    --text-color-dark: #eaeaea;
+
+    --button-bg: #0fd900;
+    --button-text: white;
+}
+
+body {
+    font-family: "Ubuntu", sans-serif;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--accent-color);
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#header img {
+    height: 50px;
+}
+
+#header button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#header button:hover {
+    filter: brightness(80%);
+    transform: scale(1.05);
+}
+
+#search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#search-input {
+    height: 38px;
+    border: 0;
+    background-color: var(--darker-color);
+    padding: 2px;
+    width: 250px;
+    border-radius: 5px;
+    color: var(--text-color-dark);
+}
+
+#search-button {
+    padding: 5px !important;
+    width: 40px;
+    height: 40px;
+    background-color: var(--button-bg);
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+#search-button-image {
+    height: 30px !important;
+}
+
+#glowny {
+    text-align: center;
+}
+
+#glowny h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin: 20px 0;
+}
+
+#user {
+    display: flex;
+    align-items: center;
+}
+
+#user span {
+    margin-right: 10px;
+    color: var(--text-color-dark);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+form {
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: var(--background-color-light);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+form h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+form input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--darker-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+    filter: brightness(80%);
+    transform: scale(1.05);
+}
+
+form p {
+    text-align: center;
+}
+
+form a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+.profile-info {
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: var(--background-color-light);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.profile-info h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.profile-info p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.logout-button {
+    display: block;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+    filter: brightness(80%);
+    transform: scale(1.05);
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+/* HTML BUGS */
+input[type="text" i] {
+    padding-block: auto;
+    padding-inline: auto;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+td {
+    text-align: center;
+    padding: 20px;
+    height: 150px;
+}
+#baner {
+    background-color: black;
+}
