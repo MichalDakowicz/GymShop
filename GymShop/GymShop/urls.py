@@ -20,9 +20,11 @@ from alledrogo.views import *
 
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('admin', admin.site.urls),
     path('', include('alledrogo.urls')),
     path('', home, name='home'),
-    path('kategoria/<id>/', kategoria, name='kategoria')
-]
+    path('kategoria/<id>/', kategoria, name='kategoria'),
+    path('produkt/<int:id>/', produkt_detail, name='produkt_detail'),]
+

@@ -23,7 +23,6 @@ class Produkt(models.Model):
     nazwa = models.CharField(max_length=256)
     opis = models.TextField()
     cena = models.FloatField()
-    cena_znizkowa = models.FloatField(null=True, blank=True)
     srednia_ocen = models.FloatField(default=0)
     kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE)
     firma = models.ForeignKey(Firma, on_delete=models.CASCADE, null=True, blank=True)
