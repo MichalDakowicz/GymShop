@@ -52,3 +52,12 @@ class Ocena(models.Model):
 
     def __str__(self):
         return str(self.produkt) + ' ' + str(self.ocena) + ' ' + str(self.komentarz)
+
+class Koszyk(models.Model):
+    id = models.AutoField(primary_key=True)
+    klient = models.ForeignKey(User, on_delete=models.CASCADE)
+    produkty = models.ManyToManyField(Produkt)
+    data_utworzenia = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.klient) + ' ' + str(self.data_utworzenia)
