@@ -14,11 +14,18 @@
     {% endif %}
 </div>
 <div id="kwadrat2">
-<form method="post" action="{% url 'dodaj_do_koszyka' produkt.id %}">
+    <form method="post" action="{% url 'dodaj_do_koszyka' produkt.id %}">
     {% csrf_token %}
+        <h2>Produkt sprzedawany przez {{ produkt.firma }}</h2>
+        <h1>Cena: {{produkt.cena}} PLN</h1>
+
     <label for="quantity_{{ produkt.id }}">Ilość:</label>
     <input type="number" name="quantity" id="quantity_{{ produkt.id }}" min="1" value="1" style="width: 50px;"><br>
+
     <input type="submit" value="Dodaj do koszyka">
+        <input type="submit" value="Dodaj do koszyka">
 </form>
 </div>
 {% endblock %}
+
+

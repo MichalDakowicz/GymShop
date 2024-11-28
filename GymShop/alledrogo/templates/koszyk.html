@@ -1,26 +1,38 @@
 {% extends "template.html" %}
 {% block content %}
-<h1>Twój Koszyk</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Produkt</th>
-            <th>Ilość</th>
-            <th>Cena jednostkowa</th>
-            <th>Cena całkowita</th>
-        </tr>
-    </thead>
-    <tbody>
+
+<div class="cart-container">
+    <h1 class="cart-title">Twój Koszyk</h1>
+    <div class="cart-items">
         {% for pozycja in pozycje %}
-        <tr>
-            <td>{{ pozycja.produkt.nazwa }}</td>
-            <td>{{ pozycja.ilosc }}</td>
-            <td>{{ pozycja.produkt.cena }} PLN</td>
-            <td>{{ pozycja.cena_calosciowa }} PLN</td>
-        </tr>
+        <div class="cart-item">
+            <div class="item-image">
+                {% if produkt.zdjecie %}
+                <img src="{{ produkt.zdjecie.url }}" />
+                {% endif %}
+            </div>
+            <div class="item-details">
+                <h3>{{ pozycja.produkt.nazwa }}</h3>
+                <p>Cena: {{ pozycja.produkt.cena }} PLN</p>
+                <p>Ilość:
+                    <button>-</button>
+                    <span>{{ pozycja.ilosc }}</span>
+                    <button>+</button>
+                </p>
+                <p>Łącznie: {{ pozycja.cena_calosciowa }} PLN</p>
+            </div>
+            <div class="item-actions">
+                <button class="remove-item">Usuń</button>
+            </div>
+        </div>
         {% endfor %}
-    </tbody>
-</table>
-<h2>Łączna kwota: {{ total }} PLN</h2>
-<a href="{% url 'home' %}">Kontynuuj zakupy</a>
+    </div>
+    <div class="cart-summary">
+        <h2>Łączna kwota: {{ total }} PLN</h2>
+        <div class="checkout-buttons">
+            <a href="{% url 'home' %}" class="btn checkout-btn">Dostawa i płatność</a>
+            <a href="{% url 'home' %}" class="btn continue-btn">Kontynuuj zakupy</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
