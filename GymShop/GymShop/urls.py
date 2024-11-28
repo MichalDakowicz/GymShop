@@ -26,5 +26,6 @@ urlpatterns = [
     path('', include('alledrogo.urls')),
     path('', home, name='home'),
     path('kategoria/<id>/', kategoria, name='kategoria'),
-    path('produkt/<int:id>/', produkt_detail, name='produkt_detail'),]
+    path('produkt/<int:id>/', produkt_detail, name='produkt_detail'),
+    ]
 

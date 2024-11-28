@@ -23,6 +23,7 @@ class Produkt(models.Model):
     nazwa = models.CharField(max_length=256)
     opis = models.TextField()
     cena = models.FloatField()
+
     srednia_ocen = models.FloatField(default=0)
     kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE)
     firma = models.ForeignKey(Firma, on_delete=models.CASCADE, null=True, blank=True)
@@ -52,11 +53,24 @@ class Ocena(models.Model):
     def __str__(self):
         return str(self.produkt) + ' ' + str(self.ocena) + ' ' + str(self.komentarz)
 
+
+
 class Koszyk(models.Model):
     id = models.AutoField(primary_key=True)
     klient = models.ForeignKey(User, on_delete=models.CASCADE)
-    produkty = models.ManyToManyField(Produkt)
     data_utworzenia = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.klient) + ' ' + str(self.data_utworzenia)
+
+class PozycjaKoszyka(models.Model):
+    koszyk = models.ForeignKey(Koszyk, on_delete=models.CASCADE, related_name='pozycje')
+    produkt = models.ForeignKey('Produkt', on_delete=models.CASCADE)
+    ilosc = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.produkt.nazwa} x {self.ilosc}"
+
+    @property
+    def cena_calosciowa(self):
+        return self.produkt.cena * self.ilosc

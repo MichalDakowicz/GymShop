@@ -1,0 +1,26 @@
+{% extends "template.html" %}
+{% block content %}
+<h1>Twój Koszyk</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Produkt</th>
+            <th>Ilość</th>
+            <th>Cena jednostkowa</th>
+            <th>Cena całkowita</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pozycja in pozycje %}
+        <tr>
+            <td>{{ pozycja.produkt.nazwa }}</td>
+            <td>{{ pozycja.ilosc }}</td>
+            <td>{{ pozycja.produkt.cena }} PLN</td>
+            <td>{{ pozycja.cena_calosciowa }} PLN</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<h2>Łączna kwota: {{ total }} PLN</h2>
+<a href="{% url 'home' %}">Kontynuuj zakupy</a>
+{% endblock %}

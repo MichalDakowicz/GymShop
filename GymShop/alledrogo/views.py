@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from .forms import CustomLoginForm, CustomRegisterForm
-from .models import Produkt, Kategoria
+from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka
 from django.http import HttpResponse
+from django.db.models import F
 
 def home(request):
     produkty = Produkt.objects.all()
@@ -55,3 +56,52 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
+
+
+
+def dodaj_do_koszyka(request, produkt_id):
+    produkt = get_object_or_404(Produkt, id=produkt_id)
+    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
+
+
+    ilosc = int(request.POST.get('quantity', 1))
+
+
+    koszyk_produkt, created = KoszykProdukt.objects.get_or_create(koszyk=koszyk, produkt=produkt)
+    if not created:
+        koszyk_produkt.ilosc += ilosc
+    else:
+        koszyk_produkt.ilosc = ilosc
+    koszyk_produkt.save()
+
+    return redirect('koszyk')
+
+
+def koszyk(request):
+    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
+    produkty = koszyk.koszykprodukt_set.all()
+    total = koszyk.suma_koszyka()
+    return render(request, 'koszyk.html', {'produkty': produkty, 'total': total})
+
+
+def dodaj_do_koszyka(request, produkt_id):
+    produkt = get_object_or_404(Produkt, id=produkt_id)
+    ilosc = int(request.POST.get('quantity', 1))
+    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
+
+
+    pozycja, created = PozycjaKoszyka.objects.get_or_create(koszyk=koszyk, produkt=produkt)
+    if not created:
+        pozycja.ilosc = F('ilosc') + ilosc
+    else:
+        pozycja.ilosc = ilosc
+    pozycja.save()
+
+    return redirect('koszyk')
+
+
+def koszyk(request):
+    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
+    pozycje = koszyk.pozycje.select_related('produkt')
+    total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
+    return render(request, 'koszyk.html', {'pozycje': pozycje, 'total': total})
