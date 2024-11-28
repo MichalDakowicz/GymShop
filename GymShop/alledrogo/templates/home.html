@@ -1,6 +1,4 @@
-{% extends "template.html" %}
-{% block content %}
-{% load static %}
+{% extends "template.html" %} {% block content %} {% load static %}
 <div id="glowny">
     <div id="baner">
         <img src="{% static 'images/blackweeks.jpg' %}" height="300px" />
@@ -8,12 +6,20 @@
     <h1>Najlepsze okazje black friday</h1>
     <div class="produkty-container">
         {% for produkt in produkty %}
-        <div class="produkt">
-            {% if produkt.zdjecie %}
-            <img src="{{ produkt.zdjecie.url }}" />
-            {% endif %}
-            <a href="{% url 'produkt_detail' produkt.id %}">{{ produkt.nazwa }}</a>
-            <p>{{ produkt.cena }} PLN</p>
+        <div
+            class="produkt"
+            onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'"
+        >
+            <a
+                href="{% url 'produkt_detail' produkt.id %}"
+                class="produkt-link"
+            >
+                {% if produkt.zdjecie %}
+                <img src="{{ produkt.zdjecie.url }}" />
+                {% endif %}
+                <h2>{{ produkt.nazwa }}</h2>
+                <p>{{ produkt.cena }} PLN</p>
+            </a>
         </div>
         {% endfor %}
     </div>

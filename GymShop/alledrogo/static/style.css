@@ -19,6 +19,7 @@ body {
     margin: 0;
     padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
+    padding-top: 60px;
 }
 
 #blok2 {
@@ -78,7 +79,11 @@ body.dark-mode {
     background-color: var(--accent-color);
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: calc(100% - 40px);
+    z-index: 1000;
+    transition: top 0.3s ease;
 }
 
 #header img {
@@ -137,7 +142,6 @@ body.dark-mode {
 
 #glowny {
     text-align: center;
-    padding: 20px;
 }
 
 #glowny h1 {
