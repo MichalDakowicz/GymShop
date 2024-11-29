@@ -120,3 +120,24 @@ def koszyk(request):
     pozycje = koszyk.pozycje.select_related('produkt')
     total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
     return render(request, 'koszyk.html', {'pozycje': pozycje, 'total': total})
+
+def home(request):
+    # Pobierz wszystkie kategorie
+    kategorie = Kategoria.objects.all()
+
+    # Pobierz wartość wybranej kategorii z parametrów GET
+    kategoria_id = request.GET.get('kategoria')
+
+    # Filtrowanie produktów według wybranej kategorii
+    if kategoria_id:
+        produkty = Produkt.objects.filter(kategoria_id=kategoria_id)
+    else:
+        produkty = Produkt.objects.all()
+
+    context = {
+        'produkty': produkty,
+        'kategorie': kategorie,
+        'wybrana_kategoria': int(kategoria_id) if kategoria_id else None,
+    }
+
+    return render(request, 'home.html', context)
