@@ -25,6 +25,15 @@
             <option value="cena_rosnaco" {% if sortowanie == 'cena_rosnaco' %}selected{% endif %}>Cena: od najniższej</option>
             <option value="cena_malejaco" {% if sortowanie == 'cena_malejaco' %}selected{% endif %}>Cena: od najwyższej</option>
         </select>
+        <br>
+        <!-- Filtracja po przedziale cenowym -->
+        <label for="cena_min">Cena od:</label>
+        <input type="number" name="cena_min" id="cena_min" value="{{ cena_min }}" placeholder="Min. cena" />
+
+        <label for="cena_max">Cena do:</label>
+        <input type="number" name="cena_max" id="cena_max" value="{{ cena_max }}" placeholder="Max. cena" />
+
+        <button type="submit">Filtruj</button>
     </form>
 
     <div class="produkty-container">

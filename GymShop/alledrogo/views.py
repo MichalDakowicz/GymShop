@@ -168,11 +168,22 @@ def home(request):
     elif sortowanie == 'cena_malejaco':
         produkty = produkty.order_by('-cena')
 
+    # Filtracja po przedziale cenowym
+    cena_min = request.GET.get('cena_min')
+    cena_max = request.GET.get('cena_max')
+
+    if cena_min:
+        produkty = produkty.filter(cena__gte=float(cena_min))  # Cena >= cena_min
+    if cena_max:
+        produkty = produkty.filter(cena__lte=float(cena_max))  # Cena <= cena_max
+
     context = {
         'produkty': produkty,
         'kategorie': kategorie,
         'wybrana_kategoria': wybrana_kategoria_id,
         'sortowanie': sortowanie,
+        'cena_min': cena_min,
+        'cena_max': cena_max,
     }
 
     return render(request, 'home.html', context)
