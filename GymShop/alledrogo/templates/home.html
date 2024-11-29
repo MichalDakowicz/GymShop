@@ -1,25 +1,39 @@
-{% extends "template.html" %} {% block content %} {% load static %}
+{% extends "template.html" %}
+{% block content %}
 <div id="glowny">
     <div id="baner">
-        <img src="{% static 'images/blackweeks.jpg' %}" height="300px" />
-    </div>
-    <h1>Najlepsze okazje black friday</h1>
-    <div class="produkty-container">
-    {% for produkt in produkty %}
-    <div
-        class="produkt"
-        onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'"
-    >
-        <a href="{% url 'produkt_detail' produkt.id %}" class="produkt-link">
-            {% if produkt.zdjecie %}
-            <img src="{{ produkt.zdjecie.url }}" alt="{{ produkt.nazwa }}" />
-            {% endif %}
-            <h2>{{ produkt.nazwa }}</h2>
-            <p>{{ produkt.cena }} PLN</p>
-        </a>
-    </div>
-    {% endfor %}
-</div>
 
+    </div>
+    <h1>Najlepsze okazje Black Friday</h1>
+
+    <!-- Sekcja sortowania po kategoriach -->
+    <form method="get" action=".">
+        <label for="kategoria">Sortuj po kategorii:</label>
+        <select name="kategoria" id="kategoria" onchange="this.form.submit()">
+            <option value="">Wszystkie kategorie</option>
+            {% for kategoria in kategorie %}
+            <option value="{{ kategoria.id }}" {% if wybrana_kategoria == kategoria.id %}selected{% endif %}>
+                {{ kategoria.nazwa }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div class="produkty-container">
+        {% for produkt in produkty %}
+        <div
+            class="produkt"
+            onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'"
+        >
+            <a href="{% url 'produkt_detail' produkt.id %}" class="produkt-link">
+                {% if produkt.zdjecie %}
+                <img src="{{ produkt.zdjecie.url }}" alt="{{ produkt.nazwa }}" />
+                {% endif %}
+                <h2>{{ produkt.nazwa }}</h2>
+                <p>{{ produkt.cena }} PLN</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

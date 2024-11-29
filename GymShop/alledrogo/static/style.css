@@ -490,4 +490,19 @@ cart-container {
     font-size: 18px;
     margin-bottom: 10px;
 }
+form {
+    margin: 20px 0;
+    text-align: center;
+}
 
+form label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+form select {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid var(--darker-color);
+    border-radius: 5px;
+}
