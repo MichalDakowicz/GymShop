@@ -1,11 +1,11 @@
 {% extends "template.html" %}
+{% load static %}
 {% block content %}
 <div id="glowny">
     <div id="baner">
-
+        <img src="{% static 'images/blackweeks.jpg' %}" height="300px" />
     </div>
     <h1>Najlepsze okazje Black Friday</h1>
-
     <!-- Sekcja sortowania po kategoriach -->
     <form method="get" action=".">
         <label for="kategoria">Sortuj po kategorii:</label>
