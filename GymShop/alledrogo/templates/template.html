@@ -24,11 +24,17 @@
             <a href="{% url 'profile' %}">
                 <img src="{% static 'images/account-image.png' %}" alt="" />
             </a>
+            <div id="cart">
+            <a href="{% url 'koszyk' %}">
+                <img src="{% static 'images/koszyk.png' %}" alt="Koszyk" height="40px" />
+            </a>
+        </div>
         </div>
         {% else %}
         <a href="{% url 'login' %}">
             <img src="{% static 'images/account-image.png' %}" alt="" />
         </a>
+
         {% endif %}
     </div>
     {% block content %}{% endblock %}
