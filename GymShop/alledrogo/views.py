@@ -150,14 +150,23 @@ def koszyk(request):
     return render(request, 'koszyk.html', {'pozycje': pozycje, 'total': total})
 
 
+from django.shortcuts import render
+from .models import Produkt, Kategoria
+
 def home(request):
     # Pobierz wszystkie kategorie
     kategorie = Kategoria.objects.all()
 
-    # Filtruj produkty na podstawie wybranej kategorii
-    wybrana_kategoria_id = request.GET.get('kategoria')
+    # Pobierz wszystkie produkty
     produkty = Produkt.objects.all()
 
+    # Wyszukiwanie po nazwie produktu
+    search_query = request.GET.get('search', '')
+    if search_query:
+        produkty = produkty.filter(nazwa__icontains=search_query)  # Filtracja na podstawie nazwy produktu
+
+    # Filtracja po kategorii
+    wybrana_kategoria_id = request.GET.get('kategoria')
     if wybrana_kategoria_id:
         produkty = produkty.filter(kategoria_id=wybrana_kategoria_id)
 
@@ -184,6 +193,7 @@ def home(request):
         'sortowanie': sortowanie,
         'cena_min': cena_min,
         'cena_max': cena_max,
+        'search_query': search_query,
     }
 
     return render(request, 'home.html', context)

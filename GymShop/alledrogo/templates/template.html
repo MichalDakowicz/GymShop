@@ -13,10 +13,13 @@
             <img src="{% static 'images/logo-rectangle.png' %}" height="50px" />
         </a>
         <div id="search">
-            <input type="text" name="search-input" id="search-input" />
-            <button id="search-button">
-                <img src="{% static 'images/search-image.png' %}" id="search-button-image" />
-            </button>
+            <!-- Formularz wyszukiwania produktów -->
+            <form method="get" action="{% url 'home' %}">
+                <input type="text" name="search" id="search-input" placeholder="Wyszukaj produkty" value="{{ request.GET.search }}" />
+                <button type="submit" id="search-button">
+                    <img src="{% static 'images/search-image.png' %}" id="search-button-image" />
+                </button>
+            </form>
         </div>
         {% if user.is_authenticated %}
         <div id="user">
@@ -25,16 +28,15 @@
                 <img src="{% static 'images/account-image.png' %}" alt="" />
             </a>
             <div id="cart">
-            <a href="{% url 'koszyk' %}">
-                <img src="{% static 'images/koszyk.png' %}" alt="Koszyk" height="40px" />
-            </a>
-        </div>
+                <a href="{% url 'koszyk' %}">
+                    <img src="{% static 'images/koszyk.png' %}" alt="Koszyk" height="40px" />
+                </a>
+            </div>
         </div>
         {% else %}
         <a href="{% url 'login' %}">
             <img src="{% static 'images/account-image.png' %}" alt="" />
         </a>
-
         {% endif %}
     </div>
     {% block content %}{% endblock %}
