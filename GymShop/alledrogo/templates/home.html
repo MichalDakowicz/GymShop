@@ -6,6 +6,7 @@
         <img src="{% static 'images/blackweeks.jpg' %}" height="300px" />
     </div>
     <h1>Najlepsze okazje Black Friday</h1>
+
     <!-- Sekcja sortowania po kategoriach -->
     <form method="get" action=".">
         <label for="kategoria">Sortuj po kategorii:</label>
@@ -17,14 +18,18 @@
             </option>
             {% endfor %}
         </select>
+        <br>
+        <!-- Sortowanie po cenie -->
+        <label for="sortowanie">Sortuj po cenie:</label>
+        <select name="sortowanie" id="sortowanie" onchange="this.form.submit()">
+            <option value="cena_rosnaco" {% if sortowanie == 'cena_rosnaco' %}selected{% endif %}>Cena: od najniższej</option>
+            <option value="cena_malejaco" {% if sortowanie == 'cena_malejaco' %}selected{% endif %}>Cena: od najwyższej</option>
+        </select>
     </form>
 
     <div class="produkty-container">
         {% for produkt in produkty %}
-        <div
-            class="produkt"
-            onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'"
-        >
+        <div class="produkt" onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'">
             <a href="{% url 'produkt_detail' produkt.id %}" class="produkt-link">
                 {% if produkt.zdjecie %}
                 <img src="{{ produkt.zdjecie.url }}" alt="{{ produkt.nazwa }}" />

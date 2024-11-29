@@ -149,23 +149,30 @@ def koszyk(request):
     total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
     return render(request, 'koszyk.html', {'pozycje': pozycje, 'total': total})
 
+
 def home(request):
     # Pobierz wszystkie kategorie
     kategorie = Kategoria.objects.all()
 
-    # Pobierz wartość wybranej kategorii z parametrów GET
-    kategoria_id = request.GET.get('kategoria')
+    # Filtruj produkty na podstawie wybranej kategorii
+    wybrana_kategoria_id = request.GET.get('kategoria')
+    produkty = Produkt.objects.all()
 
-    # Filtrowanie produktów według wybranej kategorii
-    if kategoria_id:
-        produkty = Produkt.objects.filter(kategoria_id=kategoria_id)
-    else:
-        produkty = Produkt.objects.all()
+    if wybrana_kategoria_id:
+        produkty = produkty.filter(kategoria_id=wybrana_kategoria_id)
+
+    # Sortowanie po cenie
+    sortowanie = request.GET.get('sortowanie', 'cena_rosnaco')  # domyślnie rosnąco
+    if sortowanie == 'cena_rosnaco':
+        produkty = produkty.order_by('cena')
+    elif sortowanie == 'cena_malejaco':
+        produkty = produkty.order_by('-cena')
 
     context = {
         'produkty': produkty,
         'kategorie': kategorie,
-        'wybrana_kategoria': int(kategoria_id) if kategoria_id else None,
+        'wybrana_kategoria': wybrana_kategoria_id,
+        'sortowanie': sortowanie,
     }
 
     return render(request, 'home.html', context)
