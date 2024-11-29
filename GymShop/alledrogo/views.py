@@ -3,8 +3,29 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.models import User
 from .forms import CustomLoginForm, CustomRegisterForm
 from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import F
+
+
+def remove_item_from_cart(request, pozycja_id):
+    pozycja = get_object_or_404(PozycjaKoszyka, id=pozycja_id)
+    pozycja.delete()
+    return redirect('koszyk')
+
+
+def update_pozycja_koszyka(request, pozycja_id):
+    if request.method == 'POST':
+        pozycja = get_object_or_404(PozycjaKoszyka, id=pozycja_id)
+        # Pobieramy ilość z formularza (może być ręcznie wpisana lub zmieniona)
+        ilosc = int(request.POST.get('ilosc', pozycja.ilosc))
+
+        if ilosc <= 0:
+            pozycja.delete()  # Jeśli ilość <= 0, usuwamy produkt z koszyka
+        else:
+            pozycja.ilosc = ilosc
+            pozycja.save()
+
+    return redirect('koszyk')
 
 def home(request):
     produkty = Produkt.objects.all()
@@ -76,12 +97,6 @@ def dodaj_do_koszyka(request, produkt_id):
 
     return redirect('koszyk')
 
-
-def koszyk(request):
-    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
-    produkty = koszyk.koszykprodukt_set.all()
-    total = koszyk.suma_koszyka()
-    return render(request, 'koszyk.html', {'produkty': produkty, 'total': total})
 
 
 def dodaj_do_koszyka(request, produkt_id):

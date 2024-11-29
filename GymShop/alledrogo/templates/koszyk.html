@@ -5,34 +5,42 @@
     <h1 class="cart-title">Twój Koszyk</h1>
     <div class="cart-items">
         {% for pozycja in pozycje %}
-        <div class="cart-item">
+        <div class="cart-item" id="cart-item-{{ pozycja.id }}">
             <div class="item-image">
-                {% if produkt.zdjecie %}
-                <img src="{{ produkt.zdjecie.url }}" />
+                {% if pozycja.produkt.zdjecie %}
+                <img src="{{ pozycja.produkt.zdjecie.url }}" />
                 {% endif %}
             </div>
             <div class="item-details">
                 <h3>{{ pozycja.produkt.nazwa }}</h3>
-                <p>Cena: {{ pozycja.produkt.cena }} PLN</p>
-                <p>Ilość:
-                    <button>-</button>
-                    <span>{{ pozycja.ilosc }}</span>
-                    <button>+</button>
-                </p>
-                <p>Łącznie: {{ pozycja.cena_calosciowa }} PLN</p>
+                <p>Cena: {{ pozycja.produkt.cena|floatformat:2 }} PLN</p>
+
+                <form action="{% url 'update_pozycja_koszyka' pozycja.id %}" method="POST">
+                    {% csrf_token %}
+                    <p>Ilość:
+                        <button type="submit" name="ilosc" value="{{ pozycja.ilosc|add:'-1' }}" {% if pozycja.ilosc <= 1 %}disabled{% endif %}>-</button>
+                        <input type="number" name="ilosc" value="{{ pozycja.ilosc }}" min="1" style="width: 50px;" />
+                        <button type="submit" name="ilosc" value="{{ pozycja.ilosc|add:'1' }}">+</button>
+                    </p>
+                </form>
+                <p>Łącznie: {{ pozycja.cena_calosciowa|floatformat:2 }} PLN</p>
             </div>
             <div class="item-actions">
-                <button class="remove-item">Usuń</button>
+                <form action="{% url 'remove_item_from_cart' pozycja.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-item">Usuń</button>
+                </form>
             </div>
         </div>
         {% endfor %}
     </div>
     <div class="cart-summary">
-        <h2>Łączna kwota: {{ total }} PLN</h2>
+        <h2>Łączna kwota: {{ total|floatformat:2 }} PLN</h2>
         <div class="checkout-buttons">
             <a href="{% url 'home' %}" class="btn checkout-btn">Dostawa i płatność</a>
             <a href="{% url 'home' %}" class="btn continue-btn">Kontynuuj zakupy</a>
         </div>
     </div>
 </div>
+
 {% endblock %}

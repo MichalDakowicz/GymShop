@@ -478,13 +478,7 @@ cart-container {
     font-size: 14px;
 }
 
-.item-actions .remove-item {
-    background: none;
-    color: #ff3333;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-}
+
 
 .cart-summary {
     text-align: center;
@@ -496,3 +490,4 @@ cart-container {
     font-size: 18px;
     margin-bottom: 10px;
 }
+

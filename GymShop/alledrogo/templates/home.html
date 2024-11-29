@@ -5,23 +5,21 @@
     </div>
     <h1>Najlepsze okazje black friday</h1>
     <div class="produkty-container">
-        {% for produkt in produkty %}
-        <div
-            class="produkt"
-            onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'"
-        >
-            <a
-                href="{% url 'produkt_detail' produkt.id %}"
-                class="produkt-link"
-            >
-                {% if produkt.zdjecie %}
-                <img src="{{ produkt.zdjecie.url }}" />
-                {% endif %}
-                <h2>{{ produkt.nazwa }}</h2>
-                <p>{{ produkt.cena }} PLN</p>
-            </a>
-        </div>
-        {% endfor %}
+    {% for produkt in produkty %}
+    <div
+        class="produkt"
+        onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'"
+    >
+        <a href="{% url 'produkt_detail' produkt.id %}" class="produkt-link">
+            {% if produkt.zdjecie %}
+            <img src="{{ produkt.zdjecie.url }}" alt="{{ produkt.nazwa }}" />
+            {% endif %}
+            <h2>{{ produkt.nazwa }}</h2>
+            <p>{{ produkt.cena }} PLN</p>
+        </a>
     </div>
+    {% endfor %}
+</div>
+
 </div>
 {% endblock %}

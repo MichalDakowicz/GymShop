@@ -55,6 +55,7 @@ class Ocena(models.Model):
 
 
 
+
 class Koszyk(models.Model):
     id = models.AutoField(primary_key=True)
     klient = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -73,4 +74,5 @@ class PozycjaKoszyka(models.Model):
 
     @property
     def cena_calosciowa(self):
-        return self.produkt.cena * self.ilosc
+
+        return round(self.produkt.cena * self.ilosc, 2)
