@@ -2,6 +2,29 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 
+from .models import Firma
+
+class CustomRegisterForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.set_password(self.cleaned_data["password"])
+            user.save()
+        return user
+
+class CompanyRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Firma
+        fields = ['nazwa', 'opis', 'ikona']
+
+    ikona = forms.ImageField(required=False)
+
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label="Adres email lub nazwa użytkownika", widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label="Hasło", widget=forms.PasswordInput(attrs={'class': 'form-control'}))

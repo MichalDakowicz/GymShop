@@ -1,16 +1,44 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from .forms import CustomLoginForm, CustomRegisterForm
-from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka
+from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm
+from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka,Firma
 from django.http import HttpResponse, JsonResponse
 from django.db.models import F
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = CustomRegisterForm(request.POST)
+        company_form = CompanyRegisterForm(request.POST, request.FILES)
+
+        if user_form.is_valid() and company_form.is_valid():
+            user = user_form.save()
+            user.set_password(user_form.cleaned_data["password"])
+            user.save()
+
+            # Create company profile if it's part of the registration
+            firma = company_form.save(commit=False)
+            firma.user = user
+            firma.save()
+
+            auth_login(request, user)
+            return redirect('home')
+    else:
+        user_form = CustomRegisterForm()
+        company_form = CompanyRegisterForm()
+
+    return render(request, 'register.html', {'user_form': user_form, 'company_form': company_form})
 
 
 def remove_item_from_cart(request, pozycja_id):
     pozycja = get_object_or_404(PozycjaKoszyka, id=pozycja_id)
     pozycja.delete()
     return redirect('koszyk')
+
+def company_profile(request):
+    firma = Firma.objects.get(user=request.user)
+    return render(request, 'company_profile.html', {'firma': firma})
 
 
 def update_pozycja_koszyka(request, pozycja_id):

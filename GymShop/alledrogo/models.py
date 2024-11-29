@@ -1,11 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
+
+
 class Firma(models.Model):
     id = models.AutoField(primary_key=True)
     nazwa = models.CharField(max_length=256)
     opis = models.TextField()
     ikona = models.ImageField(upload_to='media/ikony_firm', null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='firma', null=True, blank=True)
 
     def __str__(self):
         return self.nazwa
