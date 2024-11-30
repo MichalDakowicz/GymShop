@@ -214,7 +214,7 @@ def zamowienie(request):
         if form.is_valid():
             zamowienie = Zamowienie.objects.create(
                 klient=request.user,
-                data_dostarczenia=now() + timedelta(days=3),  # Ustawienie daty dostarczenia na 3 dni
+                data_dostarczenia=now() + timedelta(days=3),  # Ustawienie daty dostarcznia na 3 dni
                 imie=form.cleaned_data['imie'],
                 nazwisko=form.cleaned_data['nazwisko'],
                 ulica=form.cleaned_data['ulica'],
