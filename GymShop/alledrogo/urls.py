@@ -15,6 +15,7 @@ urlpatterns = [
     path('koszyk/update/<int:pozycja_id>/', views.update_pozycja_koszyka, name='update_pozycja_koszyka'),
     path('koszyk/remove/<int:pozycja_id>/', views.remove_item_from_cart, name='remove_item_from_cart'),
     path('zamowienie/', views.zamowienie, name='zamowienie'),
+    path('zamowienia/', views.zamowienia, name='zamowienia'),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,37 @@
+{% extends "template.html" %}
+    {% block content %}
+    <div class="orders">
+        <br>
+        <h2>   Moje zamówienia</h2>
+
+        {% if zamowienia %}
+            <ul>
+                {% for zamowienie in zamowienia %}
+                    <li>
+                        <h2>Numer zamówienia: {{ zamowienie.id }}</h2>
+                        <h3>Dane osobowe:</h3>
+                        <p>Imie: {{ zamowienie.imie }}</p>
+                        <p>Nazwisko: {{ zamowienie.nazwisko }}</p>
+                        <p>Numer telefonu: {{ zamowienie.numer_telefonu }}</p>
+                        <h3>Adres Zamowienia:</h3>
+                        <p>Ulica i numer domu: {{ zamowienie.ulica }}</p>
+                        <p>Miasto: {{ zamowienie.miasto }}</p>
+                        <p>Kod pocztowy: {{ zamowienie.kod_pocztowy }}</p>
+                        <h3>Notatki od zamawiającego:</h3>
+                        <p>{{ zamowienie.notatki }}</p>
+                        <h3>Produkty:</h3>
+                        <ul>
+                            {% for produkt in zamowienie.produkty.all %}
+                                <li>{{ produkt.nazwa }} - {{ produkt.cena }} PLN</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <br>
+                    <br>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nie masz żadnych zamówień.</p>
+        {% endif %}
+    </div>
+    {% endblock %}

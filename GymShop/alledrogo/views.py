@@ -207,14 +207,14 @@ def zamowienie(request):
         pozycje = koszyk.pozycje.select_related('produkt')
 
         if not pozycje.exists():
-            return redirect('koszyk')  # Jeśli koszyk jest pusty, przekierowanie do koszyka
+            return redirect('koszyk')
 
-        # Tworzenie nowego zamówienia
+
         form = ZamowienieForm(request.POST)
         if form.is_valid():
             zamowienie = Zamowienie.objects.create(
                 klient=request.user,
-                data_dostarczenia=now() + timedelta(days=3),  # Ustawienie daty dostarcznia na 3 dni
+                data_dostarczenia=now() + timedelta(days=3),
                 imie=form.cleaned_data['imie'],
                 nazwisko=form.cleaned_data['nazwisko'],
                 ulica=form.cleaned_data['ulica'],
@@ -224,14 +224,13 @@ def zamowienie(request):
                 notatki=form.cleaned_data['notatki'],
             )
 
-            # Przypisanie produktów do zamówienia
             for pozycja in pozycje:
                 zamowienie.produkty.add(pozycja.produkt)
-                pozycja.delete()  # Usuwamy produkt z koszyka po złożeniu zamówienia
+                pozycja.delete()
 
             zamowienie.save()
 
-            return redirect('home')  # Po zakończeniu zamówienia, przekierowanie na stronę główną
+            return redirect('home')
     else:
         form = ZamowienieForm()
 
@@ -241,3 +240,7 @@ def zamowienie(request):
     total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
 
     return render(request, 'zamowienie.html', {'form': form, 'koszyk': koszyk, 'total': total})
+
+def zamowienia(request):
+    zamowienia = Zamowienie.objects.filter(klient=request.user)
+    return render(request, 'orders.html', {'zamowienia': zamowienia})

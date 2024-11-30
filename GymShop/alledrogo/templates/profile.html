@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Profil</title>
-</head>
-<body>
-    {% extends "template.html" %}
-    {% block content %}
-    <div class="profile-info">
-        <h2>Profil użytkownika</h2>
-        <p>Username: {{ user.username }}</p>
-        <p>Email: {{ user.email }}</p>
-        <a href="{% url 'logout' %}" class="logout-button">Wyloguj się</a>
-    </div>
-    {% endblock %}
-</body>
-</html>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Profil</title>
+    </head>
+    <body>
+        {% extends "template.html" %}
+        {% block content %}
+        <div class="profile-info">
+            <h2>Profil użytkownika</h2>
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            <a href="{% url 'logout' %}" class="logout-button">Wyloguj się</a>
+            <a href="{% url 'zamowienia' %}" class="logout-button">Moje zamówienia</a>
+        </div>
+        {% endblock %}
+    </body>
+    </html>
