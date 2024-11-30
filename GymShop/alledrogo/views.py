@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm
-from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka,Firma
+from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm, ZamowienieForm
+from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka,Firma, Zamowienie
 from django.http import HttpResponse, JsonResponse
 from django.db.models import F
+from django.utils.timezone import now
+from datetime import timedelta
 
 
 def register(request):
@@ -197,3 +199,41 @@ def home(request):
     }
 
     return render(request, 'home.html', context)
+
+def zamowienie(request):
+    if request.method == 'POST':
+        # Pobranie koszyka użytkownika
+        koszyk = get_object_or_404(Koszyk, klient=request.user)
+        pozycje = koszyk.pozycje.select_related('produkt')
+
+        if not pozycje.exists():
+            return redirect('koszyk')  # Jeśli koszyk jest pusty, przekierowanie do koszyka
+
+        # Tworzenie nowego zamówienia
+        form = ZamowienieForm(request.POST)
+        if form.is_valid():
+            zamowienie = Zamowienie.objects.create(
+                klient=request.user,
+                data_dostarczenia=now() + timedelta(days=3),  # Ustawienie daty dostarczenia na 3 dni
+                adres_dostawy=form.cleaned_data['adres_dostawy'],  # Adres dostawy z formularza
+            )
+
+            # Przypisanie produktów do zamówienia
+            for pozycja in pozycje:
+                zamowienie.produkty.add(pozycja.produkt)
+                pozycja.delete()  # Usuwamy produkt z koszyka po złożeniu zamówienia
+
+            zamowienie.save()
+
+            # Można dodać metodę płatności, jeśli jest to wymagane w przyszłości
+
+            return redirect('home')  # Po zakończeniu zamówienia, przekierowanie na stronę główną
+    else:
+        form = ZamowienieForm()
+
+    # Pobieramy koszyk użytkownika
+    koszyk = get_object_or_404(Koszyk, klient=request.user)
+    pozycje = koszyk.pozycje.select_related('produkt')
+    total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
+
+    return render(request, 'zamowienie.html', {'form': form, 'koszyk': koszyk, 'total': total})

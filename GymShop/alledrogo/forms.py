@@ -4,6 +4,14 @@ from django.contrib.auth.models import User
 
 from .models import Firma
 
+class ZamowienieForm(forms.Form):
+    adres_dostawy = forms.CharField(widget=forms.Textarea, label='Adres dostawy', required=True)
+    metoda_platnosci = forms.ChoiceField(
+        choices=[('credit_card', 'Karta kredytowa'), ('paypal', 'PayPal')],
+        label='Metoda płatności',
+        required=True
+    )
+
 class CustomRegisterForm(forms.ModelForm):
     class Meta:
         model = User

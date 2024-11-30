@@ -1,0 +1,38 @@
+{% extends "template.html" %}
+
+{% block content %}
+  <h1>Podsumowanie zamówienia</h1>
+
+  <!-- Lista produktów w koszyku -->
+  <div class="koszyk-podsumowanie">
+    <h2>Produkty w Twoim koszyku:</h2>
+    <ul>
+      {% for pozycja in koszyk.pozycje.all %}
+        <li>
+          {{ pozycja.produkt.nazwa }} - {{ pozycja.ilosc }} x {{ pozycja.produkt.cena }} PLN
+        </li>
+      {% endfor %}
+    </ul>
+    <p><strong>Łączna cena: {{ total }} PLN</strong></p>
+  </div>
+
+  <!-- Formularz do zamówienia -->
+  <h2>Wprowadź dane do zamówienia</h2>
+  <form method="POST">
+    {% csrf_token %}
+    
+    <div>
+      <label for="adres_dostawy">Adres dostawy:</label>
+      {{ form.adres_dostawy }}
+    </div>
+
+    <div>
+      <label for="metoda_platnosci">Metoda płatności:</label>
+      {{ form.metoda_platnosci }}
+    </div>
+
+    <div>
+      <button type="submit">Złóż zamówienie</button>
+    </div>
+  </form>
+{% endblock %}
