@@ -1,6 +1,6 @@
 {% extends "template.html" %}
-
 {% block content %}
+
   <h1>Podsumowanie zamówienia</h1>
 
   <!-- Lista produktów w koszyku -->
@@ -17,13 +17,43 @@
   </div>
 
   <!-- Formularz do zamówienia -->
-  <h2>Wprowadź dane do zamówienia </h2>
+  <h2>Wprowadź dane do zamówienia</h2>
   <form method="POST">
     {% csrf_token %}
-    
+
     <div>
-      <label for="adres_dostawy">Adres dostawy:</label>
-      {{ form.adres_dostawy }}
+      <label for="imie">Imię:</label>
+      {{ form.imie }}
+    </div>
+
+    <div>
+      <label for="nazwisko">Nazwisko:</label>
+      {{ form.nazwisko }}
+    </div>
+
+    <div>
+      <label for="ulica">Ulica i numer mieszkania:</label>
+      {{ form.ulica }}
+    </div>
+
+    <div>
+      <label for="miasto">Miasto:</label>
+      {{ form.miasto }}
+    </div>
+
+    <div>
+      <label for="kod_pocztowy">Kod pocztowy:</label>
+      {{ form.kod_pocztowy }}
+    </div>
+
+    <div>
+      <label for="numer_telefonu">Numer telefonu:</label>
+      {{ form.numer_telefonu }}
+    </div>
+
+    <div>
+      <label for="notatki">Dodatkowe notatki:</label>
+      {{ form.notatki }}
     </div>
 
     <div>

@@ -1,11 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-
 from .models import Firma
 
 class ZamowienieForm(forms.Form):
-    adres_dostawy = forms.CharField(widget=forms.Textarea, label='Adres dostawy', required=True)
+    imie = forms.CharField(max_length=100, label='Imię', required=True)
+    nazwisko = forms.CharField(max_length=100, label='Nazwisko', required=True)
+    ulica = forms.CharField(max_length=255, label='Ulica', required=True)
+    miasto = forms.CharField(max_length=100, label='Miasto', required=True)
+    kod_pocztowy = forms.CharField(max_length=10, label='Kod pocztowy', required=True)
+    numer_telefonu = forms.CharField(max_length=15, label='Numer telefonu', required=True)
+    notatki = forms.CharField(widget=forms.Textarea, label='Dodatkowe notatki', required=False)
     metoda_platnosci = forms.ChoiceField(
         choices=[('credit_card', 'Karta kredytowa'), ('paypal', 'PayPal')],
         label='Metoda płatności',

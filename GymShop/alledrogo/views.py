@@ -215,7 +215,13 @@ def zamowienie(request):
             zamowienie = Zamowienie.objects.create(
                 klient=request.user,
                 data_dostarczenia=now() + timedelta(days=3),  # Ustawienie daty dostarczenia na 3 dni
-                adres_dostawy=form.cleaned_data['adres_dostawy'],  # Adres dostawy z formularza
+                imie=form.cleaned_data['imie'],
+                nazwisko=form.cleaned_data['nazwisko'],
+                ulica=form.cleaned_data['ulica'],
+                miasto=form.cleaned_data['miasto'],
+                kod_pocztowy=form.cleaned_data['kod_pocztowy'],
+                numer_telefonu=form.cleaned_data['numer_telefonu'],
+                notatki=form.cleaned_data['notatki'],
             )
 
             # Przypisanie produktów do zamówienia
@@ -224,8 +230,6 @@ def zamowienie(request):
                 pozycja.delete()  # Usuwamy produkt z koszyka po złożeniu zamówienia
 
             zamowienie.save()
-
-            # Można dodać metodę płatności, jeśli jest to wymagane w przyszłości
 
             return redirect('home')  # Po zakończeniu zamówienia, przekierowanie na stronę główną
     else:

@@ -37,16 +37,24 @@ class Produkt(models.Model):
     def __str__(self):
         return self.nazwa
 
+
 class Zamowienie(models.Model):
     id = models.AutoField(primary_key=True)
     produkty = models.ManyToManyField(Produkt)
     klient = models.ForeignKey(User, on_delete=models.CASCADE)
     data_zamowienia = models.DateTimeField(auto_now_add=True)
     data_dostarczenia = models.DateTimeField()
-    adres_dostawy = models.TextField()
+    imie = models.CharField(max_length=100, default='brak')
+    nazwisko = models.CharField(max_length=100, default='brak')
+    ulica = models.CharField(max_length=255, default='brak')
+    miasto = models.CharField(max_length=100, default='brak')
+    kod_pocztowy = models.CharField(max_length=6, default='brak')
+    numer_telefonu = models.CharField(max_length=15, default='brak')
+    notatki = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.klient) + ' ' + str(self.data_zamowienia)
+        return f'{self.klient} - {self.data_zamowienia}'
+
 
 class Ocena(models.Model):
     id = models.AutoField(primary_key=True)
