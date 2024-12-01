@@ -1,30 +1,54 @@
 {% extends "template.html" %}
 {% load custom_filters %}
 {% block content %}
-<div id="blok2">
-    <div id="products-top-bar"><h1>{{ produkt.nazwa }} <span class="rating">{{ produkt.srednia_ocen }}</span>
-        <div class="star-rating">
-        ★★★★★
-            <div class="star-rating-inner" style="width: {{ produkt.srednia_ocen|floatformat:2|mul:20 }}%;">★★★★★</div>
-        </div></div>
-    </h1>
-    <p>{{ produkt.opis }}</p>
-    {% if produkt.zdjecie %}
-    <img src="{{ produkt.zdjecie.url }}" height="500px">
-    {% endif %}
-</div>
-<div id="kwadrat2">
-    <form method="post" action="{% url 'dodaj_do_koszyka' produkt.id %}">
-    {% csrf_token %}
-        <h2>Produkt sprzedawany przez {{ produkt.firma }}</h2>
-        <h1>Cena: {{produkt.cena}} PLN</h1>
-
-    <label for="quantity_{{ produkt.id }}">Ilość:</label>
-    <input type="number" name="quantity" id="quantity_{{ produkt.id }}" min="1" value="1" style="width: 50px;"><br>
-
-    <input type="submit" value="Dodaj do koszyka">
-        <input type="submit" value="Dodaj do koszyka">
-</form>
+<div class="product-detail-container">
+    <div class="product-info">
+        <h1>{{ produkt.nazwa }}</h1>
+        <div class="rating-container">
+            <span class="rating">{{ produkt.srednia_ocen|floatformat:1 }}</span>
+            <div class="star-rating">
+                ★★★★★
+                <div class="star-rating-inner" style="width: {{ produkt.srednia_ocen|floatformat:1|mul:20 }}%;">★★★★★</div>
+            </div>
+        </div>
+        <p>{{ produkt.opis }}</p>
+        {% if produkt.zdjecie %}
+        <img src="{{ produkt.zdjecie.url }}" class="product-image">
+        {% endif %}
+    </div>
+    <div class="product-purchase">
+        <form method="post" action="{% url 'dodaj_do_koszyka' produkt.id %}" class="purchase-form">
+            {% csrf_token %}
+            <h2>Produkt sprzedawany przez {{ produkt.firma }}</h2>
+            <h1>Cena: {{produkt.cena}} PLN</h1>
+            <label for="quantity_{{ produkt.id }}">Ilość:</label>
+            <input type="number" name="quantity" id="quantity_{{ produkt.id }}" min="1" value="1" style="width: 50px;"><br>
+            <input type="submit" value="Dodaj do koszyka" class="btn">
+        </form>
+        <form method="post" action="{% url 'produkt_detail' produkt.id %}" class="rating-form">
+            {% csrf_token %}
+            <label for="ocena">Ocena:</label>
+            <select name="ocena" id="ocena">
+                {% for i in "12345" %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+            <label for="komentarz">Komentarz:</label>
+            <textarea name="komentarz" id="komentarz"></textarea>
+            <input type="submit" value="Dodaj ocenę" class="btn">
+        </form>
+        <div class="ratings-container">
+            <h3>Oceny:</h3>
+            <div class="ratings-box">
+                {% for ocena in oceny %}
+                <div class="rating-item">
+                    <p><strong>{{ ocena.klient.username }}</strong>: {{ ocena.ocena }} ★</p>
+                    <p>{{ ocena.komentarz }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

@@ -1,68 +1,62 @@
-{% extends "template.html" %}
-{% block content %}
+{% extends "template.html" %} {% block content %}
 
-  <h1>Podsumowanie zamówienia</h1>
-
-  <!-- Lista produktów w koszyku -->
-  <div class="koszyk-podsumowanie">
+<!-- Lista produktów w koszyku -->
+<br />
+<div class="koszyk-podsumowanie">
     <h2>Produkty w Twoim koszyku:</h2>
-    <ul>
-      {% for pozycja in koszyk.pozycje.all %}
-        <li>
-          {{ pozycja.produkt.nazwa }} - {{ pozycja.ilosc }} x {{ pozycja.produkt.cena }} PLN
+    <ul class="cart-items">
+        {% for pozycja in koszyk.pozycje.all %}
+        <li class="cart-item">
+            <span class="produkt-nazwa">{{ pozycja.produkt.nazwa }}</span>
+            <span class="produkt-ilosc">{{ pozycja.ilosc }} x</span>
+            <span class="produkt-cena">{{ pozycja.produkt.cena }} PLN</span>
         </li>
-      {% endfor %}
+        {% endfor %}
     </ul>
-    <p><strong>Łączna cena: {{ total }} PLN</strong></p>
-  </div>
+    <p class="total"><strong>Łączna cena: {{ total }} PLN</strong></p>
+</div>
 
-  <!-- Formularz do zamówienia -->
-  <h2>Wprowadź dane do zamówienia</h2>
-  <form method="POST">
+<!-- Formularz do zamówienia -->
+<form method="POST" class="zamowienie-form">
     {% csrf_token %}
 
-    <div>
-      <label for="imie">Imię:</label>
-      {{ form.imie }}
+    <div class="form-group">
+        <label for="imie">Imię:</label>
+        {{ form.imie }}
     </div>
 
-    <div>
-      <label for="nazwisko">Nazwisko:</label>
-      {{ form.nazwisko }}
+    <div class="form-group">
+        <label for="nazwisko">Nazwisko:</label>
+        {{ form.nazwisko }}
     </div>
 
-    <div>
-      <label for="ulica">Ulica i numer mieszkania:</label>
-      {{ form.ulica }}
+    <div class="form-group">
+        <label for="ulica">Ulica i numer mieszkania:</label>
+        {{ form.ulica }}
     </div>
 
-    <div>
-      <label for="miasto">Miasto:</label>
-      {{ form.miasto }}
+    <div class="form-group">
+        <label for="miasto">Miasto:</label>
+        {{ form.miasto }}
     </div>
 
-    <div>
-      <label for="kod_pocztowy">Kod pocztowy:</label>
-      {{ form.kod_pocztowy }}
+    <div class="form-group">
+        <label for="kod_pocztowy">Kod pocztowy:</label>
+        {{ form.kod_pocztowy }}
     </div>
 
-    <div>
-      <label for="numer_telefonu">Numer telefonu:</label>
-      {{ form.numer_telefonu }}
+    <div class="form-group">
+        <label for="numer_telefonu">Numer telefonu:</label>
+        {{ form.numer_telefonu }}
     </div>
 
-    <div>
-      <label for="notatki">Dodatkowe notatki:</label>
-      {{ form.notatki }}
+    <div class="form-group">
+        <label for="metoda_platnosci">Metoda płatności:</label>
+        {{ form.metoda_platnosci }}
     </div>
 
-    <div>
-      <label for="metoda_platnosci">Metoda płatności:</label>
-      {{ form.metoda_platnosci }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Złóż zamówienie</button>
     </div>
-
-    <div>
-      <button type="submit">Złóż zamówienie</button>
-    </div>
-  </form>
+</form>
 {% endblock %}

@@ -13,12 +13,13 @@
             <img src="{% static 'images/logo-rectangle.png' %}" height="50px" />
         </a>
         <div id="search">
-            <!-- Formularz wyszukiwania produktów -->
             <form method="get" action="{% url 'home' %}">
-                <input type="text" name="search" id="search-input" placeholder="Wyszukaj produkty" value="{{ request.GET.search }}" />
-                <button type="submit" id="search-button">
-                    <img src="{% static 'images/search-image.png' %}" id="search-button-image" />
-                </button>
+                <div id="search-container">
+                    <input type="text" name="search" id="search-input" placeholder="Wyszukaj produkty" value="{{ request.GET.search }}" />
+                    <button type="submit" id="search-button">
+                        <img src="{% static 'images/search-image.png' %}" id="search-button-image" />
+                    </button>
+                </div>
             </form>
         </div>
         {% if user.is_authenticated %}

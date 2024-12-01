@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm, ZamowienieForm
-from .models import Produkt, Kategoria, Koszyk,PozycjaKoszyka,Firma, Zamowienie
+from .models import Produkt, Kategoria, Koszyk, PozycjaKoszyka, Firma, Zamowienie, PozycjaZamowienia
 from django.http import HttpResponse, JsonResponse
-from django.db.models import F
-from django.utils.timezone import now
+from django.db.models import F, Q, Avg  # Import F, Q, Avg
+from django.utils import timezone  # Import timezone
 from datetime import timedelta
-
+from .models import Ocena  # Import Ocena model
 
 def register(request):
     if request.method == 'POST':
@@ -58,8 +58,61 @@ def update_pozycja_koszyka(request, pozycja_id):
     return redirect('koszyk')
 
 def home(request):
+    # Pobierz wszystkie kategorie i firmy
+    kategorie = Kategoria.objects.all()
+    firmy = Firma.objects.all()
+
+    # Pobierz wszystkie produkty
     produkty = Produkt.objects.all()
-    return render(request, 'home.html', {'produkty': produkty})
+
+    # Wyszukiwanie po nazwie produktu, kategorii i firmie
+    search_query = request.GET.get('search', '')
+    if search_query:
+        produkty = produkty.filter(
+            Q(nazwa__icontains=search_query) |
+            Q(kategoria__nazwa__icontains=search_query) |
+            Q(firma__nazwa__icontains=search_query)
+        )
+
+    # Filtracja po kategorii
+    wybrana_kategoria_id = request.GET.get('kategoria')
+    if wybrana_kategoria_id:
+        produkty = produkty.filter(kategoria_id=wybrana_kategoria_id)
+
+    # Filtracja po firmie
+    wybrana_firma_id = request.GET.get('firma')
+    if wybrana_firma_id:
+        produkty = produkty.filter(firma_id=wybrana_firma_id)
+
+    # Sortowanie po cenie
+    sortowanie = request.GET.get('sortowanie', 'cena_rosnaco')  # domyślnie rosnąco
+    if sortowanie == 'cena_rosnaco':
+        produkty = produkty.order_by('cena')
+    elif sortowanie == 'cena_malejaco':
+        produkty = produkty.order_by('-cena')
+
+    # Filtracja po przedziale cenowym
+    cena_min = request.GET.get('cena_min')
+    cena_max = request.GET.get('cena_max')
+
+    if cena_min:
+        produkty = produkty.filter(cena__gte=float(cena_min))  # Cena >= cena_min
+    if cena_max:
+        produkty = produkty.filter(cena__lte=float(cena_max))  # Cena <= cena_max
+
+    context = {
+        'produkty': produkty,
+        'kategorie': kategorie,
+        'firmy': firmy,
+        'wybrana_kategoria': wybrana_kategoria_id,
+        'wybrana_firma': wybrana_firma_id,
+        'sortowanie': sortowanie,
+        'cena_min': cena_min,
+        'cena_max': cena_max,
+        'search_query': search_query,
+    }
+
+    return render(request, 'home.html', context)
 
 def produkt_detail(request, id):
     produkt = get_object_or_404(Produkt, id=id)
@@ -107,16 +160,11 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
-
-
-
 def dodaj_do_koszyka(request, produkt_id):
     produkt = get_object_or_404(Produkt, id=produkt_id)
     koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
 
-
     ilosc = int(request.POST.get('quantity', 1))
-
 
     koszyk_produkt, created = KoszykProdukt.objects.get_or_create(koszyk=koszyk, produkt=produkt)
     if not created:
@@ -127,13 +175,10 @@ def dodaj_do_koszyka(request, produkt_id):
 
     return redirect('koszyk')
 
-
-
 def dodaj_do_koszyka(request, produkt_id):
     produkt = get_object_or_404(Produkt, id=produkt_id)
     ilosc = int(request.POST.get('quantity', 1))
     koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
-
 
     pozycja, created = PozycjaKoszyka.objects.get_or_create(koszyk=koszyk, produkt=produkt)
     if not created:
@@ -144,77 +189,25 @@ def dodaj_do_koszyka(request, produkt_id):
 
     return redirect('koszyk')
 
-
 def koszyk(request):
     koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
     pozycje = koszyk.pozycje.select_related('produkt')
-    total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
+    total = sum([pozycja.cena_calosciowa for pozycja in pozycje])  # Fix variable name
     return render(request, 'koszyk.html', {'pozycje': pozycje, 'total': total})
 
-
-from django.shortcuts import render
-from .models import Produkt, Kategoria
-
-def home(request):
-    # Pobierz wszystkie kategorie
-    kategorie = Kategoria.objects.all()
-
-    # Pobierz wszystkie produkty
-    produkty = Produkt.objects.all()
-
-    # Wyszukiwanie po nazwie produktu
-    search_query = request.GET.get('search', '')
-    if search_query:
-        produkty = produkty.filter(nazwa__icontains=search_query)  # Filtracja na podstawie nazwy produktu
-
-    # Filtracja po kategorii
-    wybrana_kategoria_id = request.GET.get('kategoria')
-    if wybrana_kategoria_id:
-        produkty = produkty.filter(kategoria_id=wybrana_kategoria_id)
-
-    # Sortowanie po cenie
-    sortowanie = request.GET.get('sortowanie', 'cena_rosnaco')  # domyślnie rosnąco
-    if sortowanie == 'cena_rosnaco':
-        produkty = produkty.order_by('cena')
-    elif sortowanie == 'cena_malejaco':
-        produkty = produkty.order_by('-cena')
-
-    # Filtracja po przedziale cenowym
-    cena_min = request.GET.get('cena_min')
-    cena_max = request.GET.get('cena_max')
-
-    if cena_min:
-        produkty = produkty.filter(cena__gte=float(cena_min))  # Cena >= cena_min
-    if cena_max:
-        produkty = produkty.filter(cena__lte=float(cena_max))  # Cena <= cena_max
-
-    context = {
-        'produkty': produkty,
-        'kategorie': kategorie,
-        'wybrana_kategoria': wybrana_kategoria_id,
-        'sortowanie': sortowanie,
-        'cena_min': cena_min,
-        'cena_max': cena_max,
-        'search_query': search_query,
-    }
-
-    return render(request, 'home.html', context)
-
 def zamowienie(request):
+    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
+    pozycje = koszyk.pozycje.select_related('produkt')
+    total = round(sum([pozycja.cena_calosciowa for pozycja in pozycje]), 2)
+    
+    if not pozycje.exists():
+        return redirect('koszyk')  # Redirect to basket if it's empty
+    
     if request.method == 'POST':
-        # Pobranie koszyka użytkownika
-        koszyk = get_object_or_404(Koszyk, klient=request.user)
-        pozycje = koszyk.pozycje.select_related('produkt')
-
-        if not pozycje.exists():
-            return redirect('koszyk')
-
-
         form = ZamowienieForm(request.POST)
         if form.is_valid():
             zamowienie = Zamowienie.objects.create(
                 klient=request.user,
-                data_dostarczenia=now() + timedelta(days=3),
                 imie=form.cleaned_data['imie'],
                 nazwisko=form.cleaned_data['nazwisko'],
                 ulica=form.cleaned_data['ulica'],
@@ -222,25 +215,47 @@ def zamowienie(request):
                 kod_pocztowy=form.cleaned_data['kod_pocztowy'],
                 numer_telefonu=form.cleaned_data['numer_telefonu'],
                 notatki=form.cleaned_data['notatki'],
+                data_dostarczenia=timezone.now() + timezone.timedelta(days=7)
             )
-
-            for pozycja in pozycje:
-                zamowienie.produkty.add(pozycja.produkt)
-                pozycja.delete()
-
-            zamowienie.save()
-
-            return redirect('home')
+            for pozycja in koszyk.pozycje.all():
+                PozycjaZamowienia.objects.create(
+                    zamowienie=zamowienie,
+                    produkt=pozycja.produkt,
+                    ilosc=pozycja.ilosc
+                )
+            koszyk.delete()
+            return redirect('orders')
     else:
         form = ZamowienieForm()
-
-    # Pobieramy koszyk użytkownika
-    koszyk = get_object_or_404(Koszyk, klient=request.user)
-    pozycje = koszyk.pozycje.select_related('produkt')
-    total = sum([pozycja.cena_calosciowa for pozycja in pozycje])
-
+    
     return render(request, 'zamowienie.html', {'form': form, 'koszyk': koszyk, 'total': total})
 
 def zamowienia(request):
     zamowienia = Zamowienie.objects.filter(klient=request.user)
     return render(request, 'orders.html', {'zamowienia': zamowienia})
+
+from django.shortcuts import render, get_object_or_404
+from .models import Zamowienie, PozycjaZamowienia
+
+def orders_view(request):
+    zamowienia = Zamowienie.objects.filter(user=request.user)
+    context = {
+        'zamowienia': zamowienia
+    }
+    return render(request, 'orders.html', context)
+
+def produkt_detail_view(request, produkt_id):
+    produkt = get_object_or_404(Produkt, id=produkt_id)
+    if request.method == 'POST':
+        ocena = int(request.POST.get('ocena'))
+        komentarz = request.POST.get('komentarz')
+        Ocena.objects.create(produkt=produkt, klient=request.user, ocena=ocena, komentarz=komentarz)
+        # Update product's average rating
+        produkt.srednia_ocen = Ocena.objects.filter(produkt=produkt).aggregate(Avg('ocena'))['ocena__avg']
+        produkt.save()
+    oceny = Ocena.objects.filter(produkt=produkt)
+    context = {
+        'produkt': produkt,
+        'oceny': oceny
+    }
+    return render(request, 'produkt_detail.html', context)

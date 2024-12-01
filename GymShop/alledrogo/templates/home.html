@@ -5,44 +5,51 @@
     <div id="baner">
         <img src="{% static 'images/blackweeks.jpg' %}" height="300px" />
     </div>
-    <h1>Najlepsze okazje Black Friday</h1>
 
-    <!-- Sekcja sortowania po kategoriach -->
-    <form method="get" action=".">
-        <label for="kategoria">Sortuj po kategorii:</label>
-        <select name="kategoria" id="kategoria" onchange="this.form.submit()">
-            <option value="">Wszystkie kategorie</option>
-            {% for kategoria in kategorie %}
-            <option value="{{ kategoria.id }}" {% if wybrana_kategoria == kategoria.id %}selected{% endif %}>
-                {{ kategoria.nazwa }}
-            </option>
-            {% endfor %}
-        </select>
-        <br>
-        <!-- Sortowanie po cenie -->
-        <label for="sortowanie">Sortuj po cenie:</label>
-        <select name="sortowanie" id="sortowanie" onchange="this.form.submit()">
-            <option value="cena_rosnaco" {% if sortowanie == 'cena_rosnaco' %}selected{% endif %}>Cena: od najniższej</option>
-            <option value="cena_malejaco" {% if sortowanie == 'cena_malejaco' %}selected{% endif %}>Cena: od najwyższej</option>
-        </select>
-        <br>
-        <!-- Filtracja po przedziale cenowym -->
-        <label for="cena_min">Cena od:</label>
-        <input type="number" name="cena_min" id="cena_min" value="{{ cena_min }}" placeholder="Min. cena" />
-
-        <label for="cena_max">Cena do:</label>
-        <input type="number" name="cena_max" id="cena_max" value="{{ cena_max }}" placeholder="Max. cena" />
-
-        <button type="submit">Filtruj</button>
-    </form>
+    <!-- Sekcja sortowania po kategoriach i firmach -->
+    <div id="filters-top-bar">
+        <form method="get" action=".">
+            <label for="kategoria" class="filter-label">Sortuj po kategorii:</label>
+            <select name="kategoria" id="kategoria" class="filter-select" onchange="this.form.submit()">
+                <option value="">Wszystkie kategorie</option>
+                {% for kategoria in kategorie %}
+                <option value="{{ kategoria.id }}" {% if wybrana_kategoria == kategoria.id %}selected{% endif %}>
+                    {{ kategoria.nazwa }}
+                </option>
+                {% endfor %}
+            </select>
+            <label for="firma" class="filter-label">Sortuj po firmie:</label>
+            <select name="firma" id="firma" class="filter-select" onchange="this.form.submit()">
+                <option value="">Wszystkie firmy</option>
+                {% for firma in firmy %}
+                <option value="{{ firma.id }}" {% if wybrana_firma == firma.id %}selected{% endif %}>
+                    {{ firma.nazwa }}
+                </option>
+                {% endfor %}
+            </select>
+            <label for="sortowanie" class="filter-label">Sortuj po cenie:</label>
+            <select name="sortowanie" id="sortowanie" class="filter-select" onchange="this.form.submit()">
+                <option value="cena_rosnaco" {% if sortowanie == 'cena_rosnaco' %}selected{% endif %}>Cena: od najniższej</option>
+                <option value="cena_malejaco" {% if sortowanie == 'cena_malejaco' %}selected{% endif %}>Cena: od najwyższej</option>
+            </select>
+            <label for="cena_min" class="filter-label">Cena od:</label>
+            <input type="number" name="cena_min" id="cena_min" class="filter-input" value="{{ cena_min }}" placeholder="Min. cena" />
+            <label for="cena_max" class="filter-label">Cena do:</label>
+            <input type="number" name="cena_max" id="cena_max" class="filter-input" value="{{ cena_max }}" placeholder="Max. cena" />
+            <button type="submit" class="filter-button">Filtruj</button>
+        </form>
+    </div>
 
     <div class="produkty-container">
         {% for produkt in produkty %}
         <div class="produkt" onclick="window.location.href='{% url 'produkt_detail' produkt.id %}'">
             <a href="{% url 'produkt_detail' produkt.id %}" class="produkt-link">
-                {% if produkt.zdjecie %}
-                <img src="{{ produkt.zdjecie.url }}" alt="{{ produkt.nazwa }}" />
-                {% endif %}
+                <div class="image-container">
+                    {% if produkt.zdjecie %}
+                    <img src="{{ produkt.zdjecie.url }}" alt="{{ produkt.nazwa }}" />
+                    <div class="image-overlay" style="background-image: url('{{ produkt.zdjecie.url }}');"></div>
+                    {% endif %}
+                </div>
                 <h2>{{ produkt.nazwa }}</h2>
                 <p>{{ produkt.cena }} PLN</p>
             </a>

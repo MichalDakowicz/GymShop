@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-
-
-
+from django.db.models import Avg  # Import Avg for calculating average rating
 
 class Firma(models.Model):
     id = models.AutoField(primary_key=True)
@@ -37,10 +34,9 @@ class Produkt(models.Model):
     def __str__(self):
         return self.nazwa
 
-
 class Zamowienie(models.Model):
     id = models.AutoField(primary_key=True)
-    produkty = models.ManyToManyField(Produkt)
+    produkty_z_iloscia = models.ManyToManyField(Produkt, through='PozycjaZamowienia', related_name='zamowienia_z_iloscia')
     klient = models.ForeignKey(User, on_delete=models.CASCADE)
     data_zamowienia = models.DateTimeField(auto_now_add=True)
     data_dostarczenia = models.DateTimeField()
@@ -55,7 +51,6 @@ class Zamowienie(models.Model):
     def __str__(self):
         return f'{self.klient} - {self.data_zamowienia}'
 
-
 class Ocena(models.Model):
     id = models.AutoField(primary_key=True)
     produkt = models.ForeignKey(Produkt, on_delete=models.CASCADE)
@@ -65,9 +60,6 @@ class Ocena(models.Model):
 
     def __str__(self):
         return str(self.produkt) + ' ' + str(self.ocena) + ' ' + str(self.komentarz)
-
-
-
 
 class Koszyk(models.Model):
     id = models.AutoField(primary_key=True)
@@ -89,3 +81,11 @@ class PozycjaKoszyka(models.Model):
     def cena_calosciowa(self):
 
         return round(self.produkt.cena * self.ilosc, 2)
+
+class PozycjaZamowienia(models.Model):
+    zamowienie = models.ForeignKey(Zamowienie, on_delete=models.CASCADE)
+    produkt = models.ForeignKey(Produkt, on_delete=models.CASCADE)
+    ilosc = models.PositiveIntegerField(default=1)
+
+    def cena_calosciowa(self):
+        return self.ilosc * self.produkt.cena

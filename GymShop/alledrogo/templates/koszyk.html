@@ -1,4 +1,5 @@
 {% extends "template.html" %}
+{% load static %}
 {% block content %}
 
 <div class="cart-container">
@@ -15,20 +16,22 @@
                 <h3>{{ pozycja.produkt.nazwa }}</h3>
                 <p>Cena: {{ pozycja.produkt.cena|floatformat:2 }} PLN</p>
 
-                <form action="{% url 'update_pozycja_koszyka' pozycja.id %}" method="POST">
+                <form action="{% url 'update_pozycja_koszyka' pozycja.id %}" method="POST" class="update-form">
                     {% csrf_token %}
                     <p>Ilość:
-                        <button type="submit" name="ilosc" value="{{ pozycja.ilosc|add:'-1' }}" {% if pozycja.ilosc <= 1 %}disabled{% endif %}>-</button>
+                        <button type="button" class="decrease-quantity" data-id="{{ pozycja.id }}" {% if pozycja.ilosc <= 1 %}disabled{% endif %}>-</button>
                         <input type="number" name="ilosc" value="{{ pozycja.ilosc }}" min="1" style="width: 50px;" />
-                        <button type="submit" name="ilosc" value="{{ pozycja.ilosc|add:'1' }}">+</button>
+                        <button type="button" class="increase-quantity" data-id="{{ pozycja.id }}">+</button>
                     </p>
                 </form>
                 <p>Łącznie: {{ pozycja.cena_calosciowa|floatformat:2 }} PLN</p>
             </div>
             <div class="item-actions">
-                <form action="{% url 'remove_item_from_cart' pozycja.id %}" method="POST">
+                <form action="{% url 'remove_item_from_cart' pozycja.id %}" method="POST" class="remove-form">
                     {% csrf_token %}
-                    <button type="submit" class="remove-item">Usuń</button>
+                    <button type="submit" class="remove-item">
+                        <img src="{% static 'images/trash-can.png' %}" alt="Usuń" class="trash-can-icon" />
+                    </button>
                 </form>
             </div>
         </div>
@@ -42,5 +45,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+            button.addEventListener('click', function() {
+                const form = this.closest('.update-form');
+                const input = form.querySelector('input[name="ilosc"]');
+                if (input.value > 1) {
+                    input.value = parseInt(input.value) - 1;
+                    form.submit();
+                }
+            });
+        });
+
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+            button.addEventListener('click', function() {
+                const form = this.closest('.update-form');
+                const input = form.querySelector('input[name="ilosc"]');
+                input.value = parseInt(input.value) + 1;
+                form.submit();
+            });
+        });
+
+        document.querySelectorAll('.item-actions').forEach(action => {
+            action.addEventListener('click', function() {
+                const form = this.querySelector('.remove-form');
+                form.submit();
+            });
+        });
+    });
+</script>
 
 {% endblock %}
