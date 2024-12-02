@@ -20,7 +20,7 @@
                     {% csrf_token %}
                     <p>Ilość:
                         <button type="button" class="decrease-quantity" data-id="{{ pozycja.id }}" {% if pozycja.ilosc <= 1 %}disabled{% endif %}>-</button>
-                        <input type="number" name="ilosc" value="{{ pozycja.ilosc }}" min="1" style="width: 50px;" />
+                        <input type="number" class="quantity-input" name="ilosc" value="{{ pozycja.ilosc }}" min="1" style="width: 50px;" />
                         <button type="button" class="increase-quantity" data-id="{{ pozycja.id }}">+</button>
                     </p>
                 </form>

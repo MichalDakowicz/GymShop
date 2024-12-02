@@ -234,9 +234,6 @@ def zamowienia(request):
     zamowienia = Zamowienie.objects.filter(klient=request.user)
     return render(request, 'orders.html', {'zamowienia': zamowienia})
 
-from django.shortcuts import render, get_object_or_404
-from .models import Zamowienie, PozycjaZamowienia
-
 def orders_view(request):
     zamowienia = Zamowienie.objects.filter(user=request.user)
     context = {

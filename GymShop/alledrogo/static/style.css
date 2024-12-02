@@ -354,6 +354,8 @@ form:not(#search form):not(#filters-top-bar form):not(.item-actions form):not(
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid var(--darker-color);
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
     border-radius: 5px;
     box-sizing: border-box;
 }
@@ -567,6 +569,8 @@ form select {
     font-size: 16px;
     border: 1px solid var(--darker-color);
     border-radius: 5px;
+    background-color: #fff;
+    color: black;
 }
 
 #filters-top-bar {
@@ -606,6 +610,8 @@ form select {
     border-radius: 5px;
     width: 188px;
     height: 26px;
+    background-color: #fff;
+    color: black;
 }
 
 .filter-button {
@@ -965,4 +971,58 @@ form select {
     .product-purchase {
         width: 100%;
     }
+}
+
+.increase-quantity,
+.decrease-quantity {
+    width: 25px;
+    height: 25px;
+    background-color: var(--button-bg);
+    border: 1px solid var(--button-bg);
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.decrease-quantity:disabled {
+    filter: brightness(75%);
+    color: #fff;
+}
+
+.quantity-input {
+    height: 21px;
+    background-color: #fff;
+    color: var(--text-color-light);
+    border: 1px solid var(--darker-color);
+    border-radius: 5px;
+}
+
+textarea {
+    background-color: #fff;
+    color: black;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.form-group.col-md-6 label,
+.form-group.col-md-6 input {
+    width: 100%;
+    display: inline-block;
+}
+
+.form-group.col-md-6 label,
+.form-group.col-md-6 input {
+    width: 100%;
 }

@@ -28,7 +28,7 @@
                                     <h4>{{ pozycja.produkt.nazwa }}</h4>
                                     <p>Ilość: {{ pozycja.ilosc }}</p>
                                     <p>Cena jednostkowa: {{ pozycja.produkt.cena }} PLN</p>
-                                    <p>Łączna cena: {{ pozycja.ilosc|mul:pozycja.produkt.cena }} PLN</p>
+                                    <p>Łączna cena: {{ pozycja.ilosc|mul:pozycja.produkt.cena|floatformat:2 }} PLN</p>
                                 </div>
                             </li>
                         {% endfor %}
