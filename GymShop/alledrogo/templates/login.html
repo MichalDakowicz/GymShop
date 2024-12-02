@@ -4,18 +4,14 @@
     <title>Logowanie</title>
 </head>
 <body>
-    {% extends "template.html" %} 
-    {% block content %}
-    <form method="post">
-        <h2>Logowanie</h2>
-        {% csrf_token %} 
-        {{ form.as_p }}
-        <button type="submit">Zaloguj</button>
-        <p>
-            Nie masz konta?
-            <a href="{% url 'register' %}">Zarejestruj się</a>
-        </p>
-    </form>
-    {% endblock %}
+    {% extends 'template.html' %}
+{% block content %}
+  <h2>Login</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Log in</button>
+  </form>
+{% endblock %}
 </body>
 </html>

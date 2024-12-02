@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja firmy</title>
+</head>
+<body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h2>Rejestracja użytkownika i firmy</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Rejestracja użytkownika</h3>
+        {{ user_form.as_p }}
+        <h3>Rejestracja firmy</h3>
+        {{ company_form.as_p }}
+        <button type="submit">Zarejestruj się</button>
+    </form>
+{%endblock%}
+</body>
+</html>

@@ -3,6 +3,12 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from .models import Firma
 
+
+class FirmLoginForm(AuthenticationForm):
+    username = forms.CharField(label="Nazwa użytkownika lub email", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label="Hasło", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+
 class ZamowienieForm(forms.Form):
     imie = forms.CharField(max_length=100, label='Imię', required=True)
     nazwisko = forms.CharField(max_length=100, label='Nazwisko', required=True)
@@ -17,10 +23,10 @@ class ZamowienieForm(forms.Form):
         required=True
     )
 
-class CustomRegisterForm(forms.ModelForm):
+class CustomUserRegisterForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password']
 
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -37,7 +43,6 @@ class CompanyRegisterForm(forms.ModelForm):
         fields = ['nazwa', 'opis', 'ikona']
 
     ikona = forms.ImageField(required=False)
-
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label="Adres email lub nazwa użytkownika", widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label="Hasło", widget=forms.PasswordInput(attrs={'class': 'form-control'}))

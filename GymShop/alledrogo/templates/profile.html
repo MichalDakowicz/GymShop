@@ -13,6 +13,12 @@
             <p>Email: {{ user.email }}</p>
             <a href="{% url 'logout' %}" class="logout-button">Wyloguj się</a>
             <a href="{% url 'zamowienia' %}" class="logout-button">Moje zamówienia</a>
+            {% if user.is_authenticated and user.firma %}
+
+        <a href="{% url 'firm_admin_panel' %}">
+            <button type="button">Przejdź do panelu administracyjnego firmy</button>
+        </a>
+    {% endif %}
         </div>
         {% endblock %}
     </body>
