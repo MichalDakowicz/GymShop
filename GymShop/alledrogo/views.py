@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm, ZamowienieForm , FirmLoginForm, CustomUserRegisterForm
 from .models import Produkt, Kategoria, Koszyk, PozycjaKoszyka, Firma, Zamowienie, PozycjaZamowienia
 from django.http import HttpResponse, JsonResponse
-from django.db.models import F, Q, Avg  # Import F, Q, Avg
+from django.db.models import F, Q, Avg, Sum  # Import F, Q, Avg
 from django.utils import timezone  # Import timezone
 from datetime import timedelta
 from .models import Ocena  # Import Ocena model
@@ -43,7 +43,21 @@ def company_register(request):
 def firm_admin_panel(request):
     try:
         firma = request.user.firma
-        return render(request, 'firm_admin_panel.html', {'firma': firma})
+
+
+        produkty = Produkt.objects.filter(firma=firma)
+
+
+        pozycje_zamowien = PozycjaZamowienia.objects.filter(produkt__firma=firma)
+        zarobione_pieniadze = pozycje_zamowien.aggregate(total=Sum(F('ilosc') * F('produkt__cena')))['total'] or 0
+        ilosc_sprzedanych_produktow = pozycje_zamowien.aggregate(total=Sum('ilosc'))['total'] or 0
+
+        return render(request, 'firm_admin_panel.html', {
+            'firma': firma,
+            'produkty': produkty,
+            'zarobione_pieniadze': zarobione_pieniadze,
+            'ilosc_sprzedanych_produktow': ilosc_sprzedanych_produktow,
+        })
     except Firma.DoesNotExist:
         return redirect('home')
 
@@ -208,21 +222,6 @@ def profile(request):
 def logout(request):
     auth_logout(request)
     return redirect('home')
-
-def dodaj_do_koszyka(request, produkt_id):
-    produkt = get_object_or_404(Produkt, id=produkt_id)
-    koszyk, created = Koszyk.objects.get_or_create(klient=request.user)
-
-    ilosc = int(request.POST.get('quantity', 1))
-
-    koszyk_produkt, created = KoszykProdukt.objects.get_or_create(koszyk=koszyk, produkt=produkt)
-    if not created:
-        koszyk_produkt.ilosc += ilosc
-    else:
-        koszyk_produkt.ilosc = ilosc
-    koszyk_produkt.save()
-
-    return redirect('koszyk')
 
 def dodaj_do_koszyka(request, produkt_id):
     produkt = get_object_or_404(Produkt, id=produkt_id)
