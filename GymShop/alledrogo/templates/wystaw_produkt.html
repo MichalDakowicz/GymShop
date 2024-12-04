@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wystaw nowy produkt</title>
+    {% extends "template.html" %}
+    {% block content %}
+</head>
+<body>
+    <h2>Wystaw nowy produkt</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Dodaj produkt</button>
+    </form>
+
+{%endblock%}
+</body>
+</html>
