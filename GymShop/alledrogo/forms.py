@@ -1,8 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from .models import Firma
+from .models import Firma,Produkt
 
+class ProduktForm(forms.ModelForm):
+    class Meta:
+        model = Produkt
+        fields = ['nazwa', 'opis', 'cena', 'kategoria', 'zdjecie']
+        widgets = {
+            'nazwa': forms.TextInput(attrs={'class': 'form-control'}),
+            'opis': forms.Textarea(attrs={'class': 'form-control'}),
+            'cena': forms.NumberInput(attrs={'class': 'form-control'}),
+            'kategoria': forms.Select(attrs={'class': 'form-control'}),
+            'zdjecie': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
 class FirmLoginForm(AuthenticationForm):
     username = forms.CharField(label="Nazwa użytkownika lub email", widget=forms.TextInput(attrs={'class': 'form-control'}))

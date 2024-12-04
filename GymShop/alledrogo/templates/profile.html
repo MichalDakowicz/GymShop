@@ -44,12 +44,14 @@
     <p><strong>Opis:</strong> {{ firma.opis }}</p>
     <p><strong>Zarobione pieniądze:</strong> {{ zarobione_pieniadze }} zł</p>
     <p><strong>Sprzedane produkty:</strong> {{ ilosc_sprzedanych_produktow }}</p>
-
+    <a href="{% url 'wystaw_produkt' %}" class="btn btn-success">Wystaw nowy produkt</a>
     <h3>Produkty</h3>
     <ul>
+
         {% for produkt in produkty %}
             <li>{{ produkt.nazwa }} - Cena: {{ produkt.cena }} zł</li>
         {% endfor %}
+
     </ul>
     {% else %}
     <p>Nie jesteś przypisany do żadnej firmy.</p>

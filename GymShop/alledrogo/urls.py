@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import home, login, register, profile, logout, produkt_detail_view, firm_login
+from .views import home, login, register, profile, logout, produkt_detail_view, firm_login,wystaw_produkt
 from . import views
 
 urlpatterns = [
@@ -20,6 +20,7 @@ urlpatterns = [
     path('orders/', views.zamowienia, name='orders'),
     path('firm/login/', firm_login, name='firm_login'),
     path('firm/register/', views.company_register, name='company_register'),
+    path('wystaw-produkt/', wystaw_produkt, name='wystaw_produkt'),
 
 ]
 

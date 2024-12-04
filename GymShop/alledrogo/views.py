@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm, ZamowienieForm , FirmLoginForm, CustomUserRegisterForm
+from .forms import CustomLoginForm, CustomRegisterForm, CompanyRegisterForm, ZamowienieForm , FirmLoginForm, CustomUserRegisterForm , ProduktForm
 from .models import Produkt, Kategoria, Koszyk, PozycjaKoszyka, Firma, Zamowienie, PozycjaZamowienia
 from django.http import HttpResponse, JsonResponse
 from django.db.models import F, Q, Avg, Sum  # Import F, Q, Avg
@@ -10,6 +10,22 @@ from datetime import timedelta
 from .models import Ocena  # Import Ocena model
 from django.contrib.auth.decorators import login_required
 
+
+def wystaw_produkt(request):
+    if not hasattr(request.user, 'firma'):
+        return redirect('profile')
+
+    if request.method == 'POST':
+        form = ProduktForm(request.POST, request.FILES)
+        if form.is_valid():
+            produkt = form.save(commit=False)
+            produkt.firma = request.user.firma
+            produkt.save()
+            return redirect('profile')
+    else:
+        form = ProduktForm()
+
+    return render(request, 'wystaw_produkt.html', {'form': form})
 
 def company_register(request):
     if request.method == 'POST':
