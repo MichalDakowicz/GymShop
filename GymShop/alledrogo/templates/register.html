@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Logowanie</title>
+    <title>Rejestracja</title>
 </head>
 <body>
     {% extends "template.html" %}
     {% block content %}
     <form method="post">
-        <h2>Logowanie</h2>
+        <h2>Rejestracja</h2>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Zaloguj</button>
-        <p>
-            Nie masz konta?
-            <a href="{% url 'register' %}">Zarejestruj się</a>
-        </p>
-        <p>
-            Jesteś firmą?
-            <a href="{% url 'company_register' %}">Zarejestruj konto firmy</a>
-        </p>
+
     </form>
     {% endblock %}
 </body>

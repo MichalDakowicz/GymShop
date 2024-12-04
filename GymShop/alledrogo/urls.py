@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import home, login, register, profile, logout, produkt_detail_view, firm_login,firm_admin_panel
+from .views import home, login, register, profile, logout, produkt_detail_view, firm_login
 from . import views
 
 urlpatterns = [
@@ -17,9 +17,8 @@ urlpatterns = [
     path('koszyk/remove/<int:pozycja_id>/', views.remove_item_from_cart, name='remove_item_from_cart'),
     path('zamowienie/', views.zamowienie, name='zamowienie'),
     path('zamowienia/', views.zamowienia, name='zamowienia'),
-    path('orders/', views.zamowienia, name='orders'),  # Add this line
+    path('orders/', views.zamowienia, name='orders'),
     path('firm/login/', firm_login, name='firm_login'),
-    path('firm/admin-panel/', firm_admin_panel, name='firm_admin_panel'),
     path('firm/register/', views.company_register, name='company_register'),
 
 ]

@@ -17,9 +17,8 @@ body {
     background-color: var(--background-color-light);
     color: var(--text-color-light);
     margin: 0;
-    padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
-    padding-top: 60px;
+    padding-top: 76px;
 }
 
 #blok2 {
@@ -415,6 +414,28 @@ form:not(#search form):not(#filters-top-bar form):not(.item-actions form):not(
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     text-align: left;
 }
+
+.company-info{
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: var(--background-color-light);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+.company-info h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.company-info p {
+    margin-bottom: 10px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
 
 .profile-info h2 {
     margin-bottom: 20px;

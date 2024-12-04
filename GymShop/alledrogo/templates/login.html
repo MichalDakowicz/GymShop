@@ -11,7 +11,20 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Log in</button>
+       <p>
+            Nie masz konta?
+            <a href="{% url 'register' %}">Zarejestruj się</a>
+        </p>
+        <p>
+            Jesteś firmą?
+            <a href="{% url 'company_register' %}">Zarejestruj konto firmy</a>
+        </p>
   </form>
+
+
+
 {% endblock %}
+
+
 </body>
 </html>

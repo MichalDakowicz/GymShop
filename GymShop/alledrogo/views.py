@@ -39,27 +39,6 @@ def company_register(request):
     })
 
 
-@login_required
-def firm_admin_panel(request):
-    try:
-        firma = request.user.firma
-
-
-        produkty = Produkt.objects.filter(firma=firma)
-
-
-        pozycje_zamowien = PozycjaZamowienia.objects.filter(produkt__firma=firma)
-        zarobione_pieniadze = pozycje_zamowien.aggregate(total=Sum(F('ilosc') * F('produkt__cena')))['total'] or 0
-        ilosc_sprzedanych_produktow = pozycje_zamowien.aggregate(total=Sum('ilosc'))['total'] or 0
-
-        return render(request, 'firm_admin_panel.html', {
-            'firma': firma,
-            'produkty': produkty,
-            'zarobione_pieniadze': zarobione_pieniadze,
-            'ilosc_sprzedanych_produktow': ilosc_sprzedanych_produktow,
-        })
-    except Firma.DoesNotExist:
-        return redirect('home')
 
 
 def firm_login(request):
@@ -216,8 +195,29 @@ def register(request):
         form = CustomRegisterForm()
     return render(request, 'register.html', {'form': form})
 
+
+
 def profile(request):
-    return render(request, 'profile.html')
+    zarobione_pieniadze = 0
+    ilosc_sprzedanych_produktow = 0
+    produkty = []
+    firma = None
+
+    if request.user.is_authenticated and hasattr(request.user, 'firma'):
+        firma = request.user.firma
+        produkty = firma.produkt_set.all()
+
+        sprzedane_produkcje = PozycjaZamowienia.objects.filter(produkt__firma=firma)
+        zarobione_pieniadze = sprzedane_produkcje.aggregate(Sum('zamowienie__produkty_z_iloscia__cena'))[
+                                  'zamowienie__produkty_z_iloscia__cena__sum'] or 0
+        ilosc_sprzedanych_produktow = sprzedane_produkcje.aggregate(Sum('ilosc'))['ilosc__sum'] or 0
+
+    return render(request, 'profile.html', {
+        'zarobione_pieniadze': zarobione_pieniadze,
+        'ilosc_sprzedanych_produktow': ilosc_sprzedanych_produktow,
+        'produkty': produkty,
+        'firma': firma,
+    })
 
 def logout(request):
     auth_logout(request)
