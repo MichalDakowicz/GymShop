@@ -18,7 +18,7 @@ body {
     color: var(--text-color-light);
     margin: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
-    padding-top: 76px;
+    padding-top: 73px;
 }
 
 #blok2 {
@@ -120,10 +120,10 @@ body.dark-mode {
 }
 
 #search-input {
-    height: 38px;
+    height: 40px;
     border: 0;
     background-color: var(--darker-color);
-    padding: 2px;
+    padding: 10px;
     width: 250px;
     border-radius: 5px;
     color: var(--text-color-dark);
@@ -133,7 +133,7 @@ body.dark-mode {
 #search-button {
     padding: 5px !important;
     width: 40px;
-    height: 38px;
+    height: 40px;
     background-color: var(--button-bg);
     border: none;
     border-radius: 0 5px 5px 0;
@@ -415,7 +415,7 @@ form:not(#search form):not(#filters-top-bar form):not(.item-actions form):not(
     text-align: left;
 }
 
-.company-info{
+.company-info {
     max-width: 400px;
     margin: 10px auto;
     padding: 20px;
@@ -435,7 +435,6 @@ form:not(#search form):not(#filters-top-bar form):not(.item-actions form):not(
     font-weight: bold;
     padding-right: 10px;
 }
-
 
 .profile-info h2 {
     margin-bottom: 20px;
@@ -601,6 +600,7 @@ form select {
     background-color: var(--background-color-light);
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap; /* Ensure filters wrap on smaller screens */
 }
 
 #filters-top-bar form {
@@ -610,6 +610,15 @@ form select {
     gap: 10px;
     margin: 3px;
     align-items: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .filter-select,
+    .filter-input,
+    .filter-button {
+        width: 100%;
+    }
 }
 
 .filter-label {

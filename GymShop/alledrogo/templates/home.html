@@ -6,10 +6,8 @@
         <img src="{% static 'images/blackweeks.jpg' %}" height="300px" />
     </div>
 
-
-    <div id="filters-top-bar">
+    <div id="filters-top-bar" class="responsive-filters">
         <form method="get" action=".">
-            <label for="kategoria" class="filter-label">Sortuj po kategorii:</label>
             <select name="kategoria" id="kategoria" class="filter-select" onchange="this.form.submit()">
                 <option value="">Wszystkie kategorie</option>
                 {% for kategoria in kategorie %}
@@ -18,7 +16,6 @@
                 </option>
                 {% endfor %}
             </select>
-            <label for="firma" class="filter-label">Sortuj po firmie:</label>
             <select name="firma" id="firma" class="filter-select" onchange="this.form.submit()">
                 <option value="">Wszystkie firmy</option>
                 {% for firma in firmy %}
@@ -27,7 +24,6 @@
                 </option>
                 {% endfor %}
             </select>
-            <label for="sortowanie" class="filter-label">Sortuj po cenie:</label>
             <select name="sortowanie" id="sortowanie" class="filter-select" onchange="this.form.submit()">
                 <option value="cena_rosnaco" {% if sortowanie == 'cena_rosnaco' %}selected{% endif %}>Cena: od najniższej</option>
                 <option value="cena_malejaco" {% if sortowanie == 'cena_malejaco' %}selected{% endif %}>Cena: od najwyższej</option>
@@ -51,7 +47,7 @@
                     {% endif %}
                 </div>
                 <h2>{{ produkt.nazwa }}</h2>
-                <p>{{ produkt.cena }} PLN</p>
+                <p>{{ produkt.cena|floatformat:2 }} PLN</p>
             </a>
         </div>
         {% endfor %}
