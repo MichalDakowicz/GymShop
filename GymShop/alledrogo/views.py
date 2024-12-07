@@ -8,8 +8,15 @@ from django.db.models import F, Q, Avg, Sum  # Import F, Q, Avg
 from django.utils import timezone  # Import timezone
 from datetime import timedelta
 from .models import Ocena  # Import Ocena model
-from django.contrib.auth.decorators import login_required
 
+
+def usun_produkt(request, produkt_id):
+    produkt = get_object_or_404(Produkt, id=produkt_id)
+    if request.user.firma == produkt.firma:
+        produkt.delete()
+
+        return redirect('profile')
+    return redirect('home')
 
 def wystaw_produkt(request):
     if not hasattr(request.user, 'firma'):
@@ -44,7 +51,7 @@ def company_register(request):
 
 
             auth_login(request, user)
-            return redirect('firm_admin_panel')
+            return redirect('home')
     else:
         user_form = CustomUserRegisterForm()
         company_form = CompanyRegisterForm()

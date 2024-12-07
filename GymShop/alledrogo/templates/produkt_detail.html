@@ -37,6 +37,13 @@
             <textarea name="komentarz" id="komentarz"></textarea>
             <input type="submit" value="Dodaj ocenę" class="btn">
         </form>
+        {% if request.user.firma == produkt.firma %}
+        <form method="post" action="{% url 'usun_produkt' produkt.id %}">
+
+            {% csrf_token %}
+            <input type="submit" value="Usuń produkt" class="btn">
+        </form>
+        {% endif %}
         <div class="ratings-container">
             <h3>Oceny:</h3>
             <div class="ratings-box">
@@ -48,8 +55,7 @@
                 {% endfor %}
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}
-
-

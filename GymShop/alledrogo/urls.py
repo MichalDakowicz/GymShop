@@ -21,6 +21,7 @@ urlpatterns = [
     path('firm/login/', firm_login, name='firm_login'),
     path('firm/register/', views.company_register, name='company_register'),
     path('wystaw-produkt/', wystaw_produkt, name='wystaw_produkt'),
+    path('produkt/usun/<int:produkt_id>/', views.usun_produkt, name='usun_produkt'),
 
 ]
 
