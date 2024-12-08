@@ -221,7 +221,7 @@ def register(request):
 
 
 def profile(request):
-    zarobione_pieniadze = 0
+
     ilosc_sprzedanych_produktow = 0
     produkty = []
     firma = None
@@ -231,12 +231,11 @@ def profile(request):
         produkty = firma.produkt_set.all()
 
         sprzedane_produkcje = PozycjaZamowienia.objects.filter(produkt__firma=firma)
-        zarobione_pieniadze = sprzedane_produkcje.aggregate(Sum('zamowienie__produkty_z_iloscia__cena'))[
-                                  'zamowienie__produkty_z_iloscia__cena__sum'] or 0
+
         ilosc_sprzedanych_produktow = sprzedane_produkcje.aggregate(Sum('ilosc'))['ilosc__sum'] or 0
 
     return render(request, 'profile.html', {
-        'zarobione_pieniadze': zarobione_pieniadze,
+
         'ilosc_sprzedanych_produktow': ilosc_sprzedanych_produktow,
         'produkty': produkty,
         'firma': firma,

@@ -1,33 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Profil</title>
-    <style>
-        .company-info{
-    max-width: 400px;
-    margin: 10px auto;
-    padding: 20px;
-    background-color: var(--background-color-light);
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    text-align: left;
-}
-
-.company-info h2 {
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-.company-info p {
-    margin-bottom: 10px;
-    font-weight: bold;
-    padding-right: 10px;
-}
-    </style>
-</head>
+{% extends "template.html" %}
+{% load custom_filters %}
+{% block content %}
 <body>
-    {% extends "template.html" %}
-    {% block content %}
+
     <div class="profile-info">
         <h2>Profil użytkownika</h2>
         <p>Imię: {{ user.first_name }}</p>
@@ -42,9 +17,8 @@
     <h2>Dane firmy</h2>
     <p><strong>Nazwa firmy:</strong> {{ firma.nazwa }}</p>
     <p><strong>Opis:</strong> {{ firma.opis }}</p>
-    <p><strong>Zarobione pieniądze:</strong> {{ zarobione_pieniadze }} zł</p>
     <p><strong>Sprzedane produkty:</strong> {{ ilosc_sprzedanych_produktow }}</p>
-    <a href="{% url 'wystaw_produkt' %}" class="btn btn-success">Wystaw nowy produkt</a>
+    <a href="{% url 'wystaw_produkt' %}" class="logout-button">Wystaw nowy produkt</a>
     <h3>Produkty</h3>
     <ul>
 
