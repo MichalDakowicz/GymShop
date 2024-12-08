@@ -21,10 +21,20 @@
             {% csrf_token %}
             <h2>Produkt sprzedawany przez {{ produkt.firma }}</h2>
             <h1>Cena: {{produkt.cena}} PLN</h1>
+            {% if user.is_authenticated %}
             <label for="quantity_{{ produkt.id }}">Ilość:</label>
             <input type="number" name="quantity" id="quantity_{{ produkt.id }}" min="1" value="1" style="width: 50px;"><br>
             <input type="submit" value="Dodaj do koszyka" class="btn">
+            {%endif%}
         </form>
+        {% if request.user.firma == produkt.firma %}
+        <form method="post" action="{% url 'usun_produkt' produkt.id %}" class="purchase-form">
+
+            {% csrf_token %}
+            <input type="submit" value="Usuń produkt" class="btn" style="width: 400px; font-weight: bold" >
+        </form>
+        {% endif %}
+        {% if user.is_authenticated %}
         <form method="post" action="{% url 'produkt_detail' produkt.id %}" class="rating-form">
             {% csrf_token %}
             <label for="ocena">Ocena:</label>
@@ -37,13 +47,7 @@
             <textarea name="komentarz" id="komentarz"></textarea>
             <input type="submit" value="Dodaj ocenę" class="btn">
         </form>
-        {% if request.user.firma == produkt.firma %}
-        <form method="post" action="{% url 'usun_produkt' produkt.id %}">
-
-            {% csrf_token %}
-            <input type="submit" value="Usuń produkt" class="btn">
-        </form>
-        {% endif %}
+        {%endif%}
         <div class="ratings-container">
             <h3>Oceny:</h3>
             <div class="ratings-box">
