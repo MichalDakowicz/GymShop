@@ -135,6 +135,7 @@ def update_pozycja_koszyka(request, pozycja_id):
 def home(request):
     # Pobierz wszystkie kategorie
     kategorie = Kategoria.objects.all()
+    firmy = Firma.objects.all()  # Pobierz wszystkie firmy
 
     # Pobierz wszystkie produkty
     produkty = Produkt.objects.all()
@@ -148,6 +149,11 @@ def home(request):
     wybrana_kategoria_id = request.GET.get('kategoria')
     if wybrana_kategoria_id:
         produkty = produkty.filter(kategoria_id=wybrana_kategoria_id)
+
+    # Filtracja po firmie
+    wybrana_firma_id = request.GET.get('firma')
+    if wybrana_firma_id:
+        produkty = produkty.filter(firma_id=wybrana_firma_id)
 
     # Sortowanie po cenie
     sortowanie = request.GET.get('sortowanie', 'cena_rosnaco')
@@ -168,7 +174,9 @@ def home(request):
     context = {
         'produkty': produkty,
         'kategorie': kategorie,
+        'firmy': firmy,  # Dodaj firmy do kontekstu
         'wybrana_kategoria': wybrana_kategoria_id,
+        'wybrana_firma': wybrana_firma_id,  # Dodaj wybraną firmę do kontekstu
         'sortowanie': sortowanie,
         'cena_min': cena_min,
         'cena_max': cena_max,
@@ -176,6 +184,7 @@ def home(request):
     }
 
     return render(request, 'home.html', context)
+
 def produkt_detail(request, id):
     produkt = get_object_or_404(Produkt, id=id)
     return render(request, 'produkt_detail.html', {'produkt': produkt})
